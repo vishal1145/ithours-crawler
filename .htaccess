@@ -1,0 +1,6 @@
+RewriteEngine On
+
+RewriteRule !\
+(^favicon.ico$)|\
+(^robots.txt$)|\
+(^assets/.*$)	dispatch.php

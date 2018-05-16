@@ -1,0 +1,138 @@
+{
+   "add_credential": {
+      "description": "Button to add a credential",
+      "message": "Add"
+   },
+   "analytics_enabled": {
+      "description": "Label for the Google Analytics checkbox.",
+      "message": "Enable Google Analytics?"
+   },
+   "analytics_section": {
+      "description": "Google Analytics section title",
+      "message": "Google Analytics"
+   },
+   "clear_button": {
+      "description": "Clear credentials button before confirmation",
+      "message": "Clear all credentials"
+   },
+   "clear_credential": {
+      "description": "Button to clear current credential",
+      "message": "Clear"
+   },
+   "clear_credentials_modal_text": {
+      "description": "Modal message text when clearing credentials",
+      "message": "Are you sure you want to remove all credentials?"
+   },
+   "clear_credentials_modal_title": {
+      "description": "Modal message title when clearing credentials",
+      "message": "Clear all credentials"
+   },
+   "clear_section": {
+      "description": "Clear credentials section title",
+      "message": "Clear all credentials"
+   },
+   "credentials_section": {
+      "description": "Credential section title in option pane",
+      "message": "Credentials"
+   },
+   "donate": {
+      "description": "Text accompanying the donation button",
+      "message": "Like the extension? A small donation would be really nice:"
+   },
+   "edit_credential": {
+      "description": "Button to edit a credential",
+      "message": "Edit"
+   },
+   "export_button": {
+      "description": "Export button",
+      "message": "Download credentials as JSON file."
+   },
+   "export_section": {
+      "description": "Export section title",
+      "message": "Export"
+   },
+   "extDescription": {
+      "description": "Description of the extension",
+      "message": "Automatically login to Basic Authentication using data based on URL regexp."
+   },
+   "extName": {
+      "description": "Name of the extension",
+      "message": "MultiPass for HTTP basic authentication"
+   },
+   "import_description": {
+      "description": "Description of the import section",
+      "message": "You can import credentials into the extension. The file format is the following:"
+   },
+   "import_file": {
+      "description": "Label of the import file selector",
+      "message": "Files to import"
+   },
+   "import_json": {
+      "description": "Label of the import textarea for JSON",
+      "message": "JSON to import"
+   },
+   "import_nothing": {
+      "description": "Indicator that the import preview is empty",
+      "message": "-nothing-"
+   },
+   "import_section": {
+      "description": "Import section title",
+      "message": "Import"
+   },
+   "import_submit": {
+      "description": "Import button",
+      "message": "Import"
+   },
+   "import_what": {
+      "description": "Dry run of what will be imported from the JSON",
+      "message": "What will be imported?"
+   },
+   "modal_cancel": {
+      "description": "Cancel button in the modal",
+      "message": "Cancel"
+   },
+   "modal_yes": {
+      "description": "Yes button in the modal",
+      "message": "Yes"
+   },
+   "open_option_page": {
+      "description": "Open the option page link",
+      "message": "Open the option page."
+   },
+   "password": {
+      "description": "Password table header",
+      "message": "Password"
+   },
+   "priority": {
+      "description": "Priority table header",
+      "message": "Priority"
+   },
+   "remove_credential": {
+      "description": "Button to remove a credential",
+      "message": "Remove"
+   },
+   "show_hide_password": {
+      "description": "Button to toggle password visibility",
+      "message": "Show / Hide"
+   },
+   "test_section": {
+      "description": "Test section title",
+      "message": "Test your regex"
+   },
+   "tested_regex_label": {
+      "description": "Label of the test regex input",
+      "message": "Your regex:"
+   },
+   "tested_urls": {
+      "description": "Title near the list of tested regex.",
+      "message": "URLs under test:"
+   },
+   "url_regexp": {
+      "description": "Url table header",
+      "message": "Url (regexp)"
+   },
+   "username": {
+      "description": "Username table header",
+      "message": "Username"
+   }
+}

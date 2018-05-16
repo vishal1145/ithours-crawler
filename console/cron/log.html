@@ -1,0 +1,1699 @@
+
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" i18n-values="dir:textdirection;lang:language" dir="ltr" lang="en" i18n-processed="" class="focus-outline-visible"><head>
+<meta charset="utf-8" />
+
+<style>/* Copyright (c) 2012 The Chromium Authors. All rights reserved.
+ * Use of this source code is governed by a BSD-style license that can be
+ * found in the LICENSE file. */
+
+html.loading * {
+  transition-duration: 0ms !important;
+}
+
+html:not(.focus-outline-visible)
+:enabled:focus:-webkit-any(input[type='checkbox'], input[type='radio']) {
+  /* Cancel border-color for :focus specified in widgets.css. */
+  border-color: rgba(0, 0, 0, 0.25);
+}
+
+.no-scroll {
+  overflow-y: hidden;
+}
+
+#extension-settings.showing-banner {
+  margin-top: 45px;
+}
+
+/* Developer mode */
+
+#dev-controls {
+  -webkit-margin-end: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+#dev-controls.animated {
+  transition: height 150ms;
+}
+
+.dev-mode #dev-controls {
+  border-bottom: 1px solid #eee;
+}
+
+#dev-controls &gt; * {
+  padding: 8px 3px;
+}
+
+#dev-controls .button-container {
+  -webkit-padding-end: 12px;
+  -webkit-padding-start: 12px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#dev-controls button {
+  white-space: nowrap;
+}
+
+#dev-controls .button-container button:not(:last-of-type) {
+  -webkit-margin-end: 5px;
+}
+
+#dev-controls-spacer {
+  flex: 1;
+}
+
+.extension-code {
+  border: 1px solid #ccc;
+  display: flex;
+  font-family: monospace;
+  overflow: auto;
+  white-space: pre;
+}
+
+.extension-code &gt; * {
+  padding: 3px;
+}
+
+.extension-code-line-numbers {
+  align-self: flex-start;
+  background-color: rgba(240, 240, 240, 1);
+  border-right: 1px solid #ccc;
+  color: rgba(128, 128, 128, 1);
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.extension-code-empty {
+  background-color: #eee;
+  display: inline-block;
+  line-height: 100px;  /* Vertically centers text and serves as min-height. */
+  text-align: center;
+  width: 100%;
+}
+
+.extension-details &gt; .developer-extras &gt; div,
+.extension-details &gt; .permanent-warnings &gt; div {
+  margin: 5px 0;
+}
+
+.dependent-extensions-message,
+.suspicious-install-message {
+  line-height: 150%;
+}
+
+#page-header &gt; .page-banner &gt; .page-banner-gradient {
+  -webkit-margin-end: 0;
+}
+
+#header-controls {
+  /* Reserve enough space to match .location-text + .trash */
+  min-width: 130px;
+  right: 16px;
+}
+
+html[dir='rtl'] #header-controls {
+  left: 16px;
+  right: auto;
+}
+
+#page-header &gt; h1::after {
+  -webkit-margin-end: 0;
+}
+
+#extension-settings #page-header {
+  /* These values match the .page values. */
+  -webkit-margin-end: 24px;
+  min-width: 576px;
+}
+
+/* Contents */
+
+#extension-settings {
+  max-width: 738px;
+}
+
+#no-extensions-message {
+  font-weight: bold;
+}
+
+#no-extensions {
+  margin-top: 3em;
+}
+
+#suggest-gallery {
+  -webkit-padding-start: 10px;
+}
+
+#footer-section {
+  background: url(chrome://theme/IDR_WEBSTORE_ICON_32) no-repeat left center;
+  background-size: 32px 32px;
+  font-size: 1.25em;
+  margin: 24px 12px 12px 12px;
+}
+
+html[dir=rtl] #footer-section {
+  background: url(chrome://theme/IDR_WEBSTORE_ICON_32) no-repeat right center;
+}
+
+#footer-section &gt; a {
+  -webkit-margin-start: 42px;
+  line-height: 32px;
+}
+
+.extension-list-item-wrapper {
+  margin: 12px 0;
+  padding: 12px;
+}
+
+.extension-list-item {
+  background-repeat: no-repeat;
+  background-size: 48px 48px;
+  display: -webkit-box;
+  min-height: 48px;
+}
+
+.extension-list-item a {
+  -webkit-margin-start: 0.5em;
+  display: inline-block;
+}
+
+html[dir='rtl'] .extension-list-item {
+  background-position-x: 100%;
+}
+
+.extension-title {
+  -webkit-padding-end: 20px;
+  -webkit-user-select: text;
+  color: rgb(48, 57, 66);
+  display: inline;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.inactive-extension .extension-title {
+  color: inherit;
+}
+
+.extension-version {
+  -webkit-padding-end: 7px;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.extension-description,
+.corrupt-install-message {
+  -webkit-padding-end: 5px;
+  font-size: 13px;
+  margin: 5px 0;
+  white-space: normal;
+}
+
+.corrupt-install-message {
+  color: rgb(196, 42, 23);
+}
+
+.action-links {
+  margin-bottom: 0.5em;
+}
+
+.action-links a {
+  -webkit-margin-end: 1em;
+  -webkit-margin-start: 0;
+}
+
+.action-links .errors-link {
+  align-items: center;
+  display: inline-flex;
+  vertical-align: bottom;
+}
+
+.extension-details {
+  -webkit-box-flex: 1;
+  -webkit-padding-end: 7px;
+  -webkit-padding-start: 60px;
+  padding-top: 6px;
+}
+
+.extension-description,
+.extension-version,
+.extension-list-item-wrapper.inactive-extension .extension-details,
+.location-text,
+.blacklist-text,
+.enable-checkbox input:disabled + .enable-checkbox-text {
+  color: rgb(115, 119, 122);
+}
+
+.enable-controls {
+  /* Matches right: position of dev controls toggle. */
+  -webkit-margin-end: 0;
+  position: relative;
+}
+
+.enable-controls &gt; .controlled-setting-indicator {
+  width: 23px;
+}
+
+.enable-controls &gt; .controlled-setting-indicator &gt; div {
+  left: 11px;
+  right: 11px;
+}
+
+/* We use x[is='action-link'] here so that we get higher specifity than the
+ * action link rules without resorting to the Dark Side (!IMPORTANT). */
+.terminated-reload-link[is='action-link'],
+.corrupted-repair-button[is='action-link'] {
+  /* Matches width of trash. */
+  -webkit-margin-end: 30px;
+}
+
+.checkbox {
+  display: inline-block;
+}
+
+.enabled-text {
+  font-weight: bold;
+}
+
+.extension-list-item-wrapper.inactive-extension .enabled-text,
+.extension-list-item-wrapper:not(.inactive-extension) .enable-text,
+.extension-list-item-wrapper.inactive-extension .optional-controls,
+.extension-list-item-wrapper.inactive-extension .butter-bar {
+  display: none;
+}
+
+.optional-controls .checkbox {
+  -webkit-margin-end: 12px;
+}
+
+.load-path &gt; span {
+  word-wrap: break-word;
+}
+
+.terminated-reload-link,
+.corrupted-repair-button {
+  display: inline-block;
+  padding-top: 7px;
+}
+
+.install-warnings a {
+  -webkit-margin-start: 0;
+}
+
+.butter-bar,
+.install-warnings,
+.extension-warnings {
+  border-radius: 3px;
+  line-height: 150%;
+  margin: 8px 0;
+  padding: 8px 12px;
+}
+
+.butter-bar {
+  background: rgb(255, 242, 153);
+}
+
+.install-warnings,
+.extension-warnings {
+  background: pink;
+}
+
+.install-warnings ul,
+.extension-warnings ul {
+  margin: 0;
+}
+
+.error-collection-control {
+  -webkit-margin-start: 5px;
+}
+
+#extension-settings:not(.dev-mode) .developer-extras,
+#extension-settings:not(.dev-mode) .error-collection-control {
+  display: none;
+}
+
+#font-measuring-div {
+  /* Remove from the flow and hide. */
+  position: absolute;
+  visibility: hidden;
+}
+
+.extension-commands-config {
+  float: right;
+}
+
+html[dir=rtl] .extension-commands-config {
+  float: left;
+}
+
+/* Overlays */
+
+#overlay {
+  z-index: 5;
+}
+
+#overlay .page:not(.showing) {
+  display: none;
+}
+
+#drop-target-overlay {
+  color: rgb(48, 57, 66);
+  font-size: 18px;
+  text-align: center;
+}
+
+#drop-target-overlay div {
+  margin: 1em;
+}
+
+.location-text,
+.blacklist-text {
+  display: block;
+  width: 100px;
+}
+
+.enable-checkbox {
+  /* Reserve enough space to match .location-text */
+  min-width: 100px;
+}
+
+/* Trash */
+
+#extension-settings .trash {
+  height: 22px;
+  opacity: 0.8;
+  position: relative;
+  right: -8px;
+  top: 6px;
+  transition: opacity 200ms;
+  vertical-align: top;
+}
+
+html[dir='rtl'] #extension-settings .trash {
+  left: -8px;
+  right: auto;
+}
+
+.extension-list-item:not(:hover) .trash:not(:focus) {
+  opacity: 0;
+}
+
+.extension-list-item-wrapper.may-not-remove .trash {
+  visibility: hidden;
+}
+
+/* In case the extension is policy controlled the trash icon must be hidden by
+ * setting display:none rather than only setting visibility:hidden to completely
+ * remove it from the layout and make space for the controlled indicator.
+ * TODO(cschuet): rather than hide always replace it with something meaningful.
+ */
+.extension-list-item-wrapper.controlled .trash {
+  display: none;
+}
+
+/* Supervised users */
+
+.page:not(.profile-is-supervised) .profile-is-supervised-banner,
+.profile-is-supervised .more-extensions-link {
+  display: none;
+}
+
+.profile-is-supervised-banner .page-banner-text {
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OHB4IiBoZWlnaHQ9IjQ4cHgiIHZpZXdCb3g9IjAgMCA0OCA0OCIgZmlsbD0iIzYyNjI2MiI+CiAgICA8cGF0aCBkPSJNMCAwaDQ4djQ4SDB6IiBmaWxsPSJub25lIi8+CiAgICA8cGF0aCBkPSJNMiA0Mmg0NEwyNCA0IDIgNDJ6bTI0LTZoLTR2LTRoNHY0em0wLThoLTR2LThoNHY4eiIvPgo8L3N2Zz4K);
+}
+
+/* Sideload Wipeout */
+
+.sideload-wipeout-learn-more {
+  text-decoration: none;
+}
+
+.sideload-wipeout-banner .page-banner-text {
+  -webkit-padding-start: 8px;
+  background-image: none;
+}
+
+.extension-highlight {
+  background-color: rgba(0, 0, 0, .05);
+}
+</style>
+<style>/* Copyright (c) 2012 The Chromium Authors. All rights reserved.
+ * Use of this source code is governed by a BSD-style license that can be
+ * found in the LICENSE file. */
+
+.extension-command-list-command-item-wrapper {
+  margin-left: 12px;
+}
+
+.command-title {
+  display: inline-block;
+  margin-top: 1em;
+}
+
+.command-container {
+  -webkit-box-orient: horizontal;
+  display: -webkit-box;
+  width: 450px;
+}
+
+.command-description {
+  -webkit-box-flex: 1;
+  display: -webkit-box;
+  margin-top: 0.5em;
+  min-height: 2em;
+}
+
+.command-shortcut-container {
+  display: -webkit-box;
+  margin-top: 0.25em;
+  min-height: 2em;
+}
+
+.command-shortcut {
+  border: solid 1px #BFBFBF;
+  border-radius: 2px;
+  color: rgb(48, 57, 66);
+  display: inline-block;
+  height: 1.4em;
+  min-width: 12.5em;
+  padding: 3px 0 1px 4px;
+}
+
+.command-shortcut-text {
+  display: inline-block;
+  height: 1.4em;
+  min-width: 11em;
+  outline: none;
+}
+
+.focused {
+  border: solid 1px rgb(140, 147, 255);
+}
+
+.clearable {
+  background: white;
+}
+
+.command-clear {
+  float: right;
+  margin-top: 1px;
+}
+
+.command-scope {
+  margin-left: 0.25em;
+  margin-top: 0.24em;
+}
+
+.capturing {
+  background: rgb(243, 244, 255);
+  border: solid 1px rgb(140, 147, 255);
+  color: #999;
+}
+
+.contains-chars {
+  color: rgb(48, 57, 66);
+}
+
+.inactive-keybinding {
+  color: #999;
+}
+</style>
+<style>/* Copyright 2013 The Chromium Authors. All rights reserved.
+ * Use of this source code is governed by a BSD-style license that can be
+ * found in the LICENSE file. */
+
+.extension-error-list-heading {
+  align-content: flex-start;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 3px;
+}
+
+.extension-error-list-heading span {
+  font-weight: bold;
+}
+
+.extension-error-list a {
+  cursor: pointer;
+}
+
+.extension-error-list-contents {
+  -webkit-padding-start: 0;
+  cursor: pointer;
+  list-style-type: none;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+#no-errors-span {
+  -webkit-margin-start: 10px;
+}
+
+.extension-error-list-contents.scrollable {
+  overflow-y: auto;
+}
+
+.extension-error-list-contents .extension-error-metadata:hover {
+  background-color: #eee;
+}
+
+.extension-error-list-contents
+    .extension-error-metadata.extension-error-active {
+  background-color: rgba(0, 100, 255, 0.1);
+}
+
+.extension-error-metadata {
+  -webkit-padding-end: 1px;
+  -webkit-padding-start: 3px;
+  display: flex;
+  flex-direction: row;
+}
+
+.extension-error-icon {
+  -webkit-margin-end: 3px;
+  height: 15px;
+  width: 15px;
+}
+
+.extension-error-message {
+  -webkit-margin-end: 15px;
+  flex: 1;
+  margin-bottom: 0;
+  margin-top: 0;
+  overflow: hidden;
+}
+
+.extension-error-metadata {
+  align-items: center;
+  display: flex;
+}
+
+.extension-error-metadata &gt; .error-delete-button {
+  -webkit-appearance: none;
+  background: url(chrome://theme/IDR_CLOSE_DIALOG) center no-repeat;
+  border: none;
+  height: 14px;
+  opacity: 0.6;
+  width: 14px;
+}
+
+.extension-error-metadata &gt; .error-delete-button:hover {
+  opacity: 0.8;
+}
+
+.extension-error-metadata &gt; .error-delete-button:active {
+  opacity: 1.0;
+}
+
+.extension-error-severity-info .extension-error-message {
+  color: #333;
+}
+.extension-error-severity-info .extension-error-icon,
+.extension-error-info-icon {
+  content: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAQAAADYWf5HAAAA90lEQVR4XrXSzUrDQBSG4fEC1ICtvQL/aNGFG+k9iQTppTmvIVERIcWFGxUVRMGNQuxC7Dr5HAiH0aLuOmdxGHg4H8MZN6+D845lBuzRD93xG8HRJaWk4pOKkpTODPUBsUFGjayogTWDNmuVzEAWqafDj8BDGoQKPehZ9yps4gEOYySUCHnd6FGnegrdt/CCpcj6VG3MmXIR6LWxNzYjGzJFVrchNrfbB7uR7TAxVOglxHpjr6xHljA2luvq+1vPWYzMMaJp2YnuYmTNfvtSgz1yiz0WVkesMLOqLYr/t2Cwx4hL3pkyYUxK96/1L5AwYMi2/ZD5nC8yhiyJ9B+BzwAAAABJRU5ErkJggg==);
+}
+
+.extension-error-severity-warning .extension-error-message {
+  color: rgba(250, 145, 0, 255);
+}
+.extension-error-severity-warning .extension-error-icon,
+.extension-error-warning-icon {
+  content: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAAAuUlEQVR4AWP4//8/1fAQMezjdAZkbAPEy4H4CRD/BNFQvg2SGoKGsQDxVCD+jwtD5VmJMWw2ssZv+0r+///39/+3PfnoBs4mZJg1uiu+n+z7DwQgGpsLrfEZtoxEw5bjM+wFiYY9xWfYfxIN+0mSy75ujf//7+sbEE2yy5ZjaJjJ+f/LplAQTXKY2aBr+Ha4AeRLIN2IzTAbQulsCno6AwJs6WwKMYmWlfwcQDhvPoXmzaeE8uYIKc8Ao5nbUIrGl2EAAAAASUVORK5CYII=);
+}
+
+.extension-error-severity-fatal .extension-error-message {
+  color: rgba(200, 50, 50, 255);
+}
+.extension-error-severity-fatal .extension-error-icon,
+.extension-error-fatal-icon {
+  content: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAAAoUlEQVR4AWP4//8/1fAQMey8qxYytgHi5UD8BIh/gmgo3wZJDUHDWIB4KhD/x4Wh8qzEGDYbrIEwnk3IMGuY4je7Nv9/tX45smYQHySOLGaNz7BlyBqBAERj48PwcnyGvUB3CQh8vX0D1SAEforPMHTFMIPANBb5n3Rz2XJqhpkNibFpQyidTSEynU0hJtGykp8DCOfNp9C8+ZRQ3hwh5RkAwoi9Sgf24icAAAAASUVORK5CYII=);
+}
+</style>
+<style>/* Copyright 2013 The Chromium Authors. All rights reserved.
+ * Use of this source code is governed by a BSD-style license that can be
+ * found in the LICENSE file. */
+
+#extension-error-overlay {
+  max-width: 100%;
+}
+
+#extension-error-overlay .content-area {
+  display: flex;
+  flex-direction: column;
+}
+
+#extension-error-overlay .extension-error-list {
+  border: 1px solid #ccc;
+  margin-bottom: 3px;
+  min-height: 48px;
+  overflow-y: auto;
+}
+
+.extension-error-overlay-runtime-content {
+  flex: none;
+}
+
+#extension-error-overlay .extension-code-highlighted-source {
+  background-color: rgba(255, 195, 200, 255);
+}
+
+#extension-error-overlay-code {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+#extension-error-overlay .extension-code-source {
+  color: #555;
+}
+
+.extension-error-overlay-context {
+  font-size: 1.1em;
+  margin-bottom: 10px;
+}
+
+.extension-error-overlay-stack-trace-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.extension-error-overlay-stack-trace summary {
+  cursor: pointer;
+  font-size: 1.1em;
+  outline: none;
+}
+
+.extension-error-overlay-stack-trace summary::-webkit-details-marker {
+  font-size: 1em;
+}
+
+.extension-error-overlay-stack-trace-list li {
+  -webkit-padding-start: 10px;
+  background-color: white;
+  cursor: pointer;
+  padding-bottom: 6px;
+  padding-top: 6px;
+}
+
+.extension-error-overlay-stack-trace-list li:hover {
+  background-color: #eee;
+}
+
+.extension-error-overlay-stack-trace-list li.extension-error-active {
+  background-color: rgba(0, 100, 255, 0.1);
+}
+</style>
+<style>/* Copyright 2014 The Chromium Authors. All rights reserved.
+ * Use of this source code is governed by a BSD-style license that can be
+ * found in the LICENSE file. */
+
+#extension-load-error {
+  -webkit-margin-end: 20px;
+  -webkit-padding-end: 3px;
+  -webkit-padding-start: 10px;
+  background-color: rgba(255, 249, 221, 1);
+  border-radius: 7px;
+  display: flex;
+  flex-direction: column;
+  font-size: 1.1em;
+  margin-top: 10px;
+  padding-bottom: 10px;
+}
+
+#extension-load-error h2 {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+#extension-load-error-message {
+  margin-top: 5px;
+}
+
+#extension-load-error-manifest {
+  background-color: rgba(255, 250, 240, 1);
+  margin-bottom: 10px;
+  margin-top: 10px;
+  max-height: 100px;
+}
+
+#extension-load-error-manifest .extension-code-highlighted-source {
+  background-color: pink;
+}
+
+#extension-load-error-controls {
+  align-self: flex-end;
+}
+
+#extension-load-error-additional &gt; span {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+#extension-load-error-additional &gt; li {
+  margin-bottom: 0;
+  margin-top: 3px;
+}
+</style>
+<style>/* Copyright 2014 The Chromium Authors. All rights reserved.
+ * Use of this source code is governed by a BSD-style license that can be
+ * found in the LICENSE file. */
+
+#extension-options-overlay {
+  overflow: hidden;
+}
+
+#extension-options-overlay-header {
+  align-items: center;
+  border-bottom: solid lightgray 1px;
+  display: flex;
+  position: relative;
+}
+
+#extension-options-overlay-icon {
+  padding: 8px;
+}
+
+#extension-options-overlay-icon {
+  height: 32px;
+  width: 32px;
+}
+
+#extension-options-overlay-title {
+  /* Cancel left padding to line up with the icon. */
+  padding-left: 0;
+}
+</style>
+<style>/* Copyright (c) 2012 The Chromium Authors. All rights reserved.
+ * Use of this source code is governed by a BSD-style license that can be
+ * found in the LICENSE file. */
+
+.pack-extension-heading {
+  padding-bottom: 5px;
+  width: 520px;
+}
+
+.pack-extension-text-boxes {
+  text-align: right;
+}
+
+.pack-extension-text-area {
+  width: 260px;
+}
+
+
+/* TODO(estade): apply this everywhere. */
+.button-strip {
+  -webkit-box-direction: reverse;
+}
+
+</style>
+<link rel="stylesheet" href="chrome://resources/css/alert_overlay.css" />
+<link rel="stylesheet" href="chrome://resources/css/bubble.css" />
+<link rel="stylesheet" href="chrome://resources/css/bubble_button.css" />
+<link rel="stylesheet" href="chrome://resources/css/controlled_indicator.css" />
+<link rel="stylesheet" href="chrome://resources/css/chrome_shared.css" />
+<link rel="stylesheet" href="chrome://resources/css/overlay.css" />
+<link rel="stylesheet" href="chrome://resources/css/spinner.css" />
+<link rel="stylesheet" href="chrome://resources/css/trash.css" />
+<style>/* Copyright (c) 2012 The Chromium Authors. All rights reserved.
+ * Use of this source code is governed by a BSD-style license that can be
+ * found in the LICENSE file. */
+
+body {
+  -webkit-margin-start: 23px;
+  color: rgb(48, 57, 66);
+}
+
+body.uber-frame {
+  -webkit-margin-start: 155px;
+}
+
+html[dir='rtl'] body.uber-frame {
+  /* Enable vertical scrollbar at all times in RTL to avoid visual glitches when
+   * showing sub-pages that vertically overflow. */
+  overflow-y: scroll;
+}
+
+/* TODO(dbeam): Remove .page class from overlays in settings so the junk below
+ * isn't necessary. */
+body #extension-settings.page,
+body #mainview-content .page,
+body .subpage-sheet-container .page,
+body &gt; .page {
+  -webkit-margin-end: 24px;
+  min-width: 576px;
+  padding-bottom: 20px;
+  padding-top: 55px;
+}
+
+body header {
+  background-image: -webkit-linear-gradient(white,
+                                            white 40%,
+                                            rgba(255, 255, 255, 0.92));
+  left: 23px;
+  /* &lt;section&gt;s in options currently amount to 638px total, broken up into
+   * 600px max-width + 18px -webkit-padding-start + 20px -webkit-margin-end
+   * so we mirror this value here so the headers match width and horizontal
+   * alignment when scrolling sideways.
+   * other-devices.css' .device width depends on this, please keep in sync. */
+  max-width: 738px;
+  min-width: 600px;
+  position: fixed;
+  right: 0;
+  top: 0;
+  /* list.css sets a z-index of up to 2, this is set to 3 to ensure that the
+   * header is in front of the selected list item. */
+  z-index: 3;
+}
+
+body.uber-frame header {
+  left: 155px;
+}
+
+html[dir='rtl'] body header {
+  left: 0;
+  right: 23px;
+}
+
+html[dir='rtl'] body.uber-frame header {
+  right: 155px;
+}
+
+body header &gt; .search-field-container,
+body header &gt; .header-extras,
+body header &gt; button {
+  position: absolute;
+  right: 20px;
+  top: 21px;
+}
+
+html[dir='rtl'] body header &gt; .search-field-container,
+html[dir='rtl'] body header &gt; .header-extras,
+html[dir='rtl'] body header &gt; button {
+  left: 20px;
+  right: auto;
+}
+
+body header input[type='search'],
+body header input[type='text'],
+body header button {
+  margin: 0;
+}
+
+body header &gt; h1 {
+  margin: 0;
+  padding: 21px 0 13px;
+}
+
+/* Create a border under the h1 (but before anything that gets appended
+ * to the end of the header). */
+body header &gt; h1::after {
+  -webkit-margin-end: 20px;
+  background-color: #eee;
+  content: ' ';
+  display: block;
+  height: 1px;
+  position: relative;
+  top: 13px;
+}
+
+body footer {
+  border-top: 1px solid #eee;
+  margin-top: 16px;
+  /* min-width and max-width should match the header */
+  max-width: 638px;
+  min-width: 600px;
+  padding: 8px 0;
+}
+
+/* Sections are used in options pages, help page and history page. This defines
+ * the section metrics to match the header metrics above. */
+body section {
+  -webkit-padding-start: 18px;
+  margin-bottom: 24px;
+  margin-top: 8px;
+  max-width: 600px;
+}
+
+body section:last-of-type {
+  margin-bottom: 0;
+}
+
+body section &gt; h3 {
+  -webkit-margin-start: -18px;
+}
+
+body section &gt; div:only-of-type {
+  -webkit-box-flex: 1;
+}
+
+body .section-header {
+  -webkit-margin-start: -18px;
+  margin-bottom: 0.8em;
+  margin-top: 1.2em;
+}
+
+body .section-header &gt; h3 {
+  display: inline;
+}
+
+/* Styles for a hideable notification banner at the top of a page. */
+.page.showing-banner {
+  margin-top: 45px;
+}
+
+.page-banner {
+  background-color: white;
+  width: 100%;
+  z-index: 2;
+}
+
+.page:not(.showing-banner) .page-banner {
+  display: none;
+}
+
+.page-banner-gradient {
+  background: -webkit-linear-gradient(rgb(255, 242, 183),
+                                      rgb(250, 230, 145));
+  border: 1px solid rgb(201, 189, 141);
+  border-radius: 3px;
+  margin: 9px 9px 0 9px;
+  min-height: 25px;
+}
+
+.page-banner .page-banner-gradient {
+  -webkit-margin-end: 20px;
+  -webkit-margin-start: 0;
+  margin-bottom: 9px;
+}
+
+.page-banner-text {
+  -webkit-padding-end: 8px;
+  -webkit-padding-start: 26px;
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OHB4IiBoZWlnaHQ9IjQ4cHgiIHZpZXdCb3g9IjAgMCA0OCA0OCIgZmlsbD0iIzYyNjI2MiI+CiAgICA8cGF0aCBkPSJNMCAwaDQ4djQ4SDB6IiBmaWxsPSJub25lIi8+CiAgICA8cGF0aCBkPSJNMjQgMTRWNkg0djM2aDQwVjE0SDI0ek0xMiAzOEg4di00aDR2NHptMC04SDh2LTRoNHY0em0wLThIOHYtNGg0djR6bTAtOEg4di00aDR2NHptOCAyNGgtNHYtNGg0djR6bTAtOGgtNHYtNGg0djR6bTAtOGgtNHYtNGg0djR6bTAtOGgtNHYtNGg0djR6bTIwIDI0SDI0di00aDR2LTRoLTR2LTRoNHYtNGgtNHYtNGgxNnYyMHptLTQtMTZoLTR2NGg0di00em0wIDhoLTR2NGg0di00eiIvPgo8L3N2Zz4K);
+  background-position: 0 center;
+  background-repeat: no-repeat;
+  background-size: 18px;
+  display: block;
+  padding-bottom: 8px;
+  padding-top: 8px;
+}
+
+.page-banner.clickable:active .page-banner-text {
+  background: -webkit-linear-gradient(rgb(250, 230, 145),
+                                      rgb(255, 242, 183));
+}
+</style>
+
+<script src="chrome://resources/js/action_link.js"></script>
+<script src="chrome://resources/js/cr.js"></script>
+<script src="chrome://resources/js/event_tracker.js"></script>
+<script src="chrome://resources/js/load_time_data.js"></script>
+<script src="chrome://resources/js/util.js"></script>
+<script src="chrome://resources/js/cr/ui.js"></script>
+<script src="chrome://resources/js/cr/ui/alert_overlay.js"></script>
+<script src="chrome://resources/js/cr/ui/bubble.js"></script>
+<script src="chrome://resources/js/cr/ui/bubble_button.js"></script>
+<script src="chrome://resources/js/cr/ui/controlled_indicator.js"></script>
+<script src="chrome://resources/js/cr/ui/drag_wrapper.js"></script>
+<script src="chrome://resources/js/cr/ui/focus_manager.js"></script>
+<script src="chrome://resources/js/cr/ui/focus_outline_manager.js"></script>
+<script src="chrome://resources/js/cr/ui/node_utils.js"></script>
+<script src="chrome://resources/js/cr/ui/overlay.js"></script>
+
+
+
+<script src="chrome://extensions-frame/extensions.js"></script>
+<style type="text/css">.enable-checkbox-text {  min-width: 58px;}#dev-toggle span {  min-width: 88px;}</style><title>Extensions</title></head>
+
+<body class="uber-frame no-scroll">
+
+<div id="overlay" class="overlay">
+  <!--
+ * Copyright (c) 2012 The Chromium Authors. All rights reserved.
+ * Use of this source code is governed by a BSD-style license that can be found
+ * in the LICENSE file.
+-->
+<div id="extension-commands-overlay" class="page" style="max-height: 640px;" aria-hidden="true">
+  <div class="close-button"></div>
+  <h1>Keyboard Shortcuts for Extensions and Apps</h1>
+  <div class="content-area">
+    <div id="extension-command-list" class=""><div class="extension-command-list-extension-item-wrapper">
+    <div class="extension-command-list-extension-item">
+      <div class="extension-command-extension-details">
+        <div>
+          <span class="extension-title command-title">MultiPass for HTTP basic authentication</span>
+          <div class="command-details"></div>
+        </div>
+      </div>
+    </div>
+  </div><div class="extension-command-list-command-item-wrapper" id="command-enhldmjbphoeibbpdhmjkchohnidgnah-_execute_browser_action">
+    <div class="extension-command-list-command-item">
+      <div class="extension-command-details">
+        <div class="command-container">
+          <span class="command-description">Activate the extension</span>
+          <span class="command-shortcut-container"><span class="command-shortcut clearable inactive-keybinding"><img class="command-clear" src="chrome://theme/IDR_EXTENSION_COMMAND_CLOSE" id="clear-enhldmjbphoeibbpdhmjkchohnidgnah-_execute_browser_action" title="Delete shortcut" /><span class="command-shortcut-text" tabindex="0">Not set</span></span></span>
+          <select class="command-scope" id="setCommandScope-enhldmjbphoeibbpdhmjkchohnidgnah-_execute_browser_action" disabled=""><option>In Chrome</option></select>
+        </div>
+      </div>
+    </div>
+  </div></div>
+    <div id="no-commands" hidden="">
+      <span id="no-extensions-commands-message">
+        No extensions have keyboard shortcuts assigned.
+      </span>
+    </div>
+  </div>
+  <div class="action-area">
+    <div class="action-area-right">
+      <div class="button-strip">
+        <button id="extension-commands-dismiss">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="template-collection-extension-commands" hidden="">
+  <div class="extension-command-list-extension-item-wrapper">
+    <div class="extension-command-list-extension-item">
+      <div class="extension-command-extension-details">
+        <div>
+          <span class="extension-title command-title"></span>
+          <div class="command-details"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="extension-command-list-command-item-wrapper">
+    <div class="extension-command-list-command-item">
+      <div class="extension-command-details">
+        <div class="command-container">
+          <span class="command-description"></span>
+          <span class="command-shortcut-container"><span class="command-shortcut clearable"><img class="command-clear" src="chrome://theme/IDR_EXTENSION_COMMAND_CLOSE" /><span class="command-shortcut-text" tabindex="0"></span></span></span>
+          <select class="command-scope" hidden=""></select>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!--
+Copyright 2013 The Chromium Authors. All rights reserved.
+Use of this source code is governed by a BSD-style license that can be found
+in the LICENSE file.
+-->
+
+<div id="template-collection-extension-error-overlay" hidden="">
+  <div class="extension-error-overlay-runtime-content">
+    <div class="extension-error-overlay-context">
+      <span>Context:</span>
+      <span class="extension-error-overlay-context-url"></span>
+    </div>
+    <details class="extension-error-overlay-stack-trace">
+      <summary>Stack Trace</summary>
+      <ul class="extension-error-overlay-stack-trace-list"></ul>
+    </details>
+  </div>
+</div>
+
+<div id="extension-error-overlay" class="page" style="max-height: 640px;" aria-hidden="true">
+  <div class="close-button"></div>
+  <h1 class="extension-error-overlay-title"></h1>
+  <div class="content-area">
+    <div class="extension-error-list"></div>
+    <div id="extension-error-overlay-code" class="extension-code"></div>
+  </div>
+  <div class="action-area">
+    <div class="action-area-right">
+      <div class="button-strip">
+        <button id="extension-error-overlay-dismiss">
+          Done
+        </button>
+        <button id="extension-error-overlay-devtools-button" hidden="">
+          View in Developer Tools
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!--
+Copyright 2014 The Chromium Authors. All rights reserved.
+Use of this source code is governed by a BSD-style license that can be found
+in the LICENSE file.
+-->
+<div id="extension-options-overlay" class="page showing" style="max-height: 640px;" aria-hidden="false">
+  <div class="close-button"></div>
+  <div id="extension-options-overlay-header">
+    <img id="extension-options-overlay-icon" aria-hidden="true" src="data:image/png;base64,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" />
+    <h1 id="extension-options-overlay-title">MultiPass for HTTP basic authentication</h1>
+  </div>
+  <div id="extension-options-overlay-guest" style="width: 642px; height: 542px;"><extensionoptions tabindex="-1" extension="enhldmjbphoeibbpdhmjkchohnidgnah"></extensionoptions></div>
+</div>
+
+  <div id="pack-extension-overlay" class="page" style="max-height: 640px;" aria-hidden="true">
+  <div class="close-button"></div>
+  <h1>Pack Extension</h1>
+  <div id="cbd-content-area" class="content-area">
+    <div class="pack-extension-heading">Select the root directory of the extension to pack. To update an extension, also select the private key file to reuse.</div>
+    <div class="pack-extension-text-boxes">
+      <label for="extension-root-dir">Extension root directory:</label>
+      <input class="pack-extension-text-area" id="extension-root-dir" type="text" />
+      <button id="browse-extension-dir">
+        Browse…
+      </button>
+    </div>
+    <div class="pack-extension-text-boxes">
+      <label for="extension-private-key">Private key file (optional):</label>
+      <input class="pack-extension-text-area" id="extension-private-key" type="text" />
+      <button id="browse-private-key">
+        Browse…
+      </button>
+    </div>
+  </div>
+  <div class="action-area">
+    <div class="action-area-right">
+      <div class="button-strip">
+        <button id="pack-extension-dismiss">Cancel</button>
+        <button id="pack-extension-commit">
+          Pack Extension
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div id="alertOverlay" class="page" style="max-height: 640px;" aria-hidden="true">
+  <h1 id="alertOverlayTitle"></h1>
+  <div class="content-area">
+    <div id="alertOverlayMessage"></div>
+  </div>
+  <div class="action-area">
+    <div class="button-strip">
+      <button id="alertOverlayCancel" type="reset"></button>
+      <button id="alertOverlayOk" type="submit"></button>
+    </div>
+  </div>
+</div>
+
+
+  <div id="drop-target-overlay" class="page" style="max-height: 640px;" aria-hidden="true">
+    <div>Drop to install</div>
+  </div>
+</div>
+
+<div class="page" id="extension-settings" aria-hidden="true" style="width: 738px;">
+  <header id="page-header" style="transform: none;">
+    <h1>Extensions</h1>
+    <div id="header-controls" class="header-extras">
+      <div id="dev-toggle" class="checkbox">
+        <label>
+          <input id="toggle-dev-on" type="checkbox" />
+          <span>Developer mode</span>
+          <span id="dev-toggle-disabled-by-policy-indicator" class="bubble-button controlled-setting-indicator"><div tabindex="0" role="button"></div></span>
+        </label>
+      </div>
+    </div>
+    <div class="page-banner profile-is-supervised-banner">
+      <div class="page-banner-gradient">
+        <span class="page-banner-text">
+          Apps and extensions can only be modified by the manager ().
+        </span>
+      </div>
+    </div>
+  </header>
+  <div id="loading-spinner" hidden="">
+    <div class="inline-spinner"></div>
+    <span>Loading…</span>
+  </div>
+  <div id="dev-controls">
+    <div class="button-container" aria-hidden="true">
+      <button id="load-unpacked" tabindex="-1">
+        Load unpacked extension…
+      </button>
+      <button id="pack-extension" tabindex="-1">
+        Pack extension…
+      </button>
+
+      <div id="dev-controls-spacer"></div>
+      <button id="update-extensions-now" tabindex="-1">
+        Update extensions now
+      </button>
+    </div>
+  </div>
+  
+<!--
+Copyright 2014 The Chromium Authors. All rights reserved.
+Use of this source code is governed by a BSD-style license that can be found
+in the LICENSE file.
+-->
+<div id="extension-load-error" hidden="">
+  <h2>Error Loading Extension</h2>
+  <div id="extension-load-error-message">
+    <span>Failed to load extension from:</span>
+    <span id="extension-load-error-path"></span>
+  </div>
+  <span id="extension-load-error-reason"></span>
+  <div id="extension-load-error-manifest" class="extension-code"></div>
+  <div id="extension-load-error-controls">
+    <button id="extension-load-error-retry-button">
+      Retry
+    </button>
+    <button id="extension-load-error-give-up-button">
+      I give up
+    </button>
+  </div>
+  <div id="extension-load-error-additional" hidden="">
+    <span>Other extensions that failed to load:</span>
+    <ul></ul>
+  </div>
+</div>
+
+  <div id="extension-list-wrapper"><div id="extension-settings-list"><div class="extension-list-item-wrapper focus-row-active" id="aapnijgdinlhnhlmodcfapnahmbfebeb">
+    <div class="extension-list-item" style="background-image: url(&quot;data:image/png;base64,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&quot;);">
+      <div class="extension-details">
+        <div>
+          <h2 class="extension-title">Chrome Automation Extension</h2>
+          <span class="extension-version">1</span>
+        </div>
+        <p class="corrupt-install-message" hidden="">This extension may have been corrupted.</p>
+        <p class="extension-description">Exposes extension APIs for automating Chrome</p>
+        <div class="action-links">
+          <a is="action-link" class="permissions-link" tabindex="0" role="link" focus-type="details">
+            Details
+          </a>
+          <a is="action-link" class="options-button" hidden="" tabindex="0" role="link" focus-type="options">
+            Options
+          </a>
+          <a class="options-link" hidden="" href="" focus-type="options" tabindex="0">Options</a>
+          <a class="site-link" target="_parent" hidden="" focus-type="website" tabindex="0"></a>
+          <a is="action-link" class="launch-link" hidden="" tabindex="0" role="link" focus-type="launch">
+            Launch
+          </a>
+          <a is="action-link" role="button" class="reload-link" tabindex="0" focus-type="localReload">
+            Reload (Ctrl+R)
+          </a>
+          <a is="action-link" role="button" class="errors-link" tabindex="0" focus-type="errors" hidden="">
+            <img class="extension-error-icon" />
+            <span>Errors</span>
+          </a>
+        </div>
+        <div class="permanent-warnings">
+          <div class="extension-warnings" hidden="">
+            <span>Warning:</span>
+            <ul></ul>
+          </div>
+          <div class="suspicious-install-message" hidden="">
+            <span>This extension is not listed in the Chrome Web Store and may have been added without your knowledge.</span>
+            <a target="_blank" class="learn-more-link" href="https://support.google.com/chrome/?p=ui_remove_non_cws_extensions&amp;hl=en-US" i18n-values="href:extensionSettingsSuspiciousInstallHelpUrl" focus-type="suspiciousLearnMore" tabindex="0">
+              Learn more
+            </a>
+          </div>
+        </div>
+        <div class="dependent-extensions-message" hidden="">
+          <span>The following extensions depend on this extension:</span>
+          <ul></ul>
+        </div>
+        <div class="developer-extras">
+          <div>
+            <span>ID:</span>
+            <span class="extension-id"> aapnijgdinlhnhlmodcfapnahmbfebeb</span>
+          </div>
+          <div class="load-path">
+            <span>Loaded from:</span>
+            <a is="action-link" tabindex="0" role="link" focus-type="loadPath"> C:\Users\COMFYS~1\AppData\Local\Temp\scoped_dir2632_30766\internal</a>
+          </div>
+          <div class="managed-message" hidden="">
+            (This extension is managed and cannot be removed or disabled.)
+          </div>
+          <div class="update-required-message" hidden="">
+            This extension is outdated and disabled by enterprise policy. It might become enabled automatically when a newer version is available.
+          </div>
+          <div class="active-views">
+            <span>Inspect views:</span>
+            <a is="action-link" tabindex="0" role="link" focus-type="activeView">background page</a>
+          </div>
+          <div class="install-warnings" hidden="">
+            <span>There were warnings when trying to install this extension:</span>
+            <ul></ul>
+          </div>
+        </div>
+        <div class="optional-controls">
+          <button class="show-button" hidden="" focus-type="showButton" tabindex="0">Show button</button>
+          <div class="checkbox">
+            <label class="incognito-control">
+              <input type="checkbox" focus-type="incognito" tabindex="0" />
+              <span>Allow in incognito</span>
+            </label>
+          </div>
+          <div class="checkbox error-collection-control" hidden="">
+            <label>
+              <input type="checkbox" focus-type="collectErrors" tabindex="0" />
+              <span>Collect errors</span>
+            </label>
+          </div>
+          <div class="checkbox all-urls-control" hidden="">
+            <label>
+              <input type="checkbox" focus-type="allUrls" tabindex="0" />
+              <span>Allow on all websites</span>
+            </label>
+          </div>
+          <div class="checkbox file-access-control">
+            <label>
+              <input type="checkbox" focus-type="localUrls" tabindex="0" />
+              <span>Allow access to file URLs</span>
+            </label>
+          </div>
+        </div>
+        <div class="butter-bar" i18n-values=".innerHTML:extensionSettingsIncognitoWarning" hidden=""><b>Warning:</b> Google Chrome cannot prevent extensions from recording your browsing history. To disable this extension in incognito mode, unselect this option.</div>
+      </div>
+      <div class="enable-controls">
+        <a is="action-link" role="button" class="terminated-reload-link" hidden="" tabindex="0" focus-type="terminatedReload">
+          Reload
+        </a>
+        <a is="action-link" role="button" class="corrupted-repair-button" hidden="" tabindex="0" focus-type="repair">
+          Repair
+        </a>
+        <div class="checkbox enable-checkbox"><label>
+          <input type="checkbox" focus-type="enabled" tabindex="0" />
+          <span class="enable-checkbox-text">
+            <span class="enabled-text">Enabled</span>
+            <span class="enable-text">Enable</span>
+          </span>
+        </label>
+        <span class="location-text"></span>
+        <span class="blacklist-text"></span>
+        </div>
+      <button class="trash custom-appearance" title="Remove from Chrome…" focus-type="remove-enterprise" tabindex="0">
+  <span class="lid"></span>
+  <span class="can"></span>
+</button></div>
+    </div>
+  </div><div class="extension-list-item-wrapper" id="enhldmjbphoeibbpdhmjkchohnidgnah">
+    <div class="extension-list-item" style="background-image: url(&quot;data:image/png;base64,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&quot;);">
+      <div class="extension-details">
+        <div>
+          <h2 class="extension-title">MultiPass for HTTP basic authentication</h2>
+          <span class="extension-version">0.7.4</span>
+        </div>
+        <p class="corrupt-install-message" hidden="">This extension may have been corrupted.</p>
+        <p class="extension-description">Automatically login to Basic Authentication using data based on URL regexp.</p>
+        <div class="action-links">
+          <a is="action-link" class="permissions-link" tabindex="-1" role="link" focus-type="details">
+            Details
+          </a>
+          <a is="action-link" class="options-button" tabindex="-1" role="link" focus-type="options">
+            Options
+          </a>
+          <a class="options-link" hidden="" href="chrome-extension://enhldmjbphoeibbpdhmjkchohnidgnah/options.html" focus-type="options" tabindex="-1">Options</a>
+          <a class="site-link" target="_parent" hidden="" focus-type="website" tabindex="-1"></a>
+          <a is="action-link" class="launch-link" hidden="" tabindex="-1" role="link" focus-type="launch">
+            Launch
+          </a>
+          <a is="action-link" role="button" class="reload-link" tabindex="-1" focus-type="localReload">
+            Reload (Ctrl+R)
+          </a>
+          <a is="action-link" role="button" class="errors-link" tabindex="-1" focus-type="errors" hidden="">
+            <img class="extension-error-icon" />
+            <span>Errors</span>
+          </a>
+        </div>
+        <div class="permanent-warnings">
+          <div class="extension-warnings" hidden="">
+            <span>Warning:</span>
+            <ul></ul>
+          </div>
+          <div class="suspicious-install-message" hidden="">
+            <span>This extension is not listed in the Chrome Web Store and may have been added without your knowledge.</span>
+            <a target="_blank" class="learn-more-link" href="https://support.google.com/chrome/?p=ui_remove_non_cws_extensions&amp;hl=en-US" i18n-values="href:extensionSettingsSuspiciousInstallHelpUrl" focus-type="suspiciousLearnMore" tabindex="-1">
+              Learn more
+            </a>
+          </div>
+        </div>
+        <div class="dependent-extensions-message" hidden="">
+          <span>The following extensions depend on this extension:</span>
+          <ul></ul>
+        </div>
+        <div class="developer-extras">
+          <div>
+            <span>ID:</span>
+            <span class="extension-id"> enhldmjbphoeibbpdhmjkchohnidgnah</span>
+          </div>
+          <div class="load-path">
+            <span>Loaded from:</span>
+            <a is="action-link" tabindex="-1" role="link" focus-type="loadPath"> C:\xampp\htdocs\chrome_plugin\enhldmjbphoeibbpdhmjkchohnidgnah\0.7.4_0\</a>
+          </div>
+          <div class="managed-message" hidden="">
+            (This extension is managed and cannot be removed or disabled.)
+          </div>
+          <div class="update-required-message" hidden="">
+            This extension is outdated and disabled by enterprise policy. It might become enabled automatically when a newer version is available.
+          </div>
+          <div class="active-views">
+            <span>Inspect views:</span>
+            <a is="action-link" tabindex="-1" role="link" focus-type="activeView">options.html</a>
+          <a is="action-link" tabindex="-1" role="link" focus-type="activeView">background page</a></div>
+          <div class="install-warnings" hidden="">
+            <span>There were warnings when trying to install this extension:</span>
+            <ul></ul>
+          </div>
+        </div>
+        <div class="optional-controls">
+          <button class="show-button" hidden="" focus-type="showButton" tabindex="-1">Show button</button>
+          <div class="checkbox">
+            <label class="incognito-control">
+              <input type="checkbox" focus-type="incognito" tabindex="-1" />
+              <span>Allow in incognito</span>
+            </label>
+          </div>
+          <div class="checkbox error-collection-control" hidden="">
+            <label>
+              <input type="checkbox" focus-type="collectErrors" tabindex="-1" />
+              <span>Collect errors</span>
+            </label>
+          </div>
+          <div class="checkbox all-urls-control" hidden="">
+            <label>
+              <input type="checkbox" focus-type="allUrls" tabindex="-1" />
+              <span>Allow on all websites</span>
+            </label>
+          </div>
+          <div class="checkbox file-access-control" hidden="">
+            <label>
+              <input type="checkbox" focus-type="localUrls" tabindex="-1" />
+              <span>Allow access to file URLs</span>
+            </label>
+          </div>
+        </div>
+        <div class="butter-bar" i18n-values=".innerHTML:extensionSettingsIncognitoWarning" hidden=""><b>Warning:</b> Google Chrome cannot prevent extensions from recording your browsing history. To disable this extension in incognito mode, unselect this option.</div>
+      </div>
+      <div class="enable-controls">
+        <a is="action-link" role="button" class="terminated-reload-link" hidden="" tabindex="-1" focus-type="terminatedReload">
+          Reload
+        </a>
+        <a is="action-link" role="button" class="corrupted-repair-button" hidden="" tabindex="-1" focus-type="repair">
+          Repair
+        </a>
+        <div class="checkbox enable-checkbox"><label>
+          <input type="checkbox" focus-type="enabled" tabindex="-1" />
+          <span class="enable-checkbox-text">
+            <span class="enabled-text">Enabled</span>
+            <span class="enable-text">Enable</span>
+          </span>
+        </label>
+        <span class="location-text"></span>
+        <span class="blacklist-text"></span>
+        </div>
+      <button class="trash custom-appearance" title="Remove from Chrome…" focus-type="remove-enterprise" tabindex="-1">
+  <span class="lid"></span>
+  <span class="can"></span>
+</button></div>
+    </div>
+  </div></div>
+    <div id="footer-section">
+      <a target="_blank" class="more-extensions-link" i18n-values="href:extensionSettingsGetMoreExtensionsUrl" href="https://chrome.google.com/webstore/category/extensions?hl=en-US">
+        Get more extensions
+      </a>
+      <a is="action-link" class="extension-commands-config" tabindex="0" role="link">
+        Keyboard shortcuts
+      </a>
+    </div>
+  </div>
+  <div id="no-extensions" hidden="">
+    <span id="no-extensions-message">Boo… You have no extensions :-(</span>
+    <span id="suggest-gallery" class="more-extensions-link" i18n-values=".innerHTML:extensionSettingsSuggestGallery">Want to <a target="_blank" href="https://chrome.google.com/webstore/category/extensions?hl=en-US">browse the Chrome Web Store</a> instead?</span>
+  </div>
+</div>
+
+<span id="font-measuring-div" class="">Developer mode</span>
+
+<div id="templates" hidden="">
+
+  <div class="extension-list-item-wrapper">
+    <div class="extension-list-item">
+      <div class="extension-details">
+        <div>
+          <h2 class="extension-title"></h2>
+          <span class="extension-version"></span>
+        </div>
+        <p class="corrupt-install-message" hidden="">This extension may have been corrupted.</p>
+        <p class="extension-description"></p>
+        <div class="action-links">
+          <a is="action-link" class="permissions-link" tabindex="0" role="link">
+            Details
+          </a>
+          <a is="action-link" class="options-button" hidden="" tabindex="0" role="link">
+            Options
+          </a>
+          <a class="options-link" hidden="">Options</a>
+          <a class="site-link" target="_parent" hidden=""></a>
+          <a is="action-link" class="launch-link" hidden="" tabindex="0" role="link">
+            Launch
+          </a>
+          <a is="action-link" role="button" class="reload-link" hidden="" tabindex="0">
+            Reload (Ctrl+R)
+          </a>
+          <a is="action-link" role="button" class="errors-link" tabindex="0">
+            <img class="extension-error-icon" />
+            <span>Errors</span>
+          </a>
+        </div>
+        <div class="permanent-warnings">
+          <div class="extension-warnings" hidden="">
+            <span>Warning:</span>
+            <ul></ul>
+          </div>
+          <div class="suspicious-install-message" hidden="">
+            <span>This extension is not listed in the Chrome Web Store and may have been added without your knowledge.</span>
+            <a target="_blank" class="learn-more-link" href="https://support.google.com/chrome/?p=ui_remove_non_cws_extensions&amp;hl=en-US" i18n-values="href:extensionSettingsSuspiciousInstallHelpUrl">
+              Learn more
+            </a>
+          </div>
+        </div>
+        <div class="dependent-extensions-message" hidden="">
+          <span>The following extensions depend on this extension:</span>
+          <ul></ul>
+        </div>
+        <div class="developer-extras">
+          <div>
+            <span>ID:</span>
+            <span class="extension-id"></span>
+          </div>
+          <div class="load-path" hidden="">
+            <span>Loaded from:</span>
+            <a is="action-link" tabindex="0" role="link"></a>
+          </div>
+          <div class="managed-message" hidden="">
+            (This extension is managed and cannot be removed or disabled.)
+          </div>
+          <div class="update-required-message" hidden="">
+            This extension is outdated and disabled by enterprise policy. It might become enabled automatically when a newer version is available.
+          </div>
+          <div class="active-views" hidden="">
+            <span>Inspect views:</span>
+            <a is="action-link" tabindex="0" role="link"></a>
+          </div>
+          <div class="install-warnings" hidden="">
+            <span>There were warnings when trying to install this extension:</span>
+            <ul></ul>
+          </div>
+        </div>
+        <div class="optional-controls">
+          <button class="show-button" hidden="">Show button</button>
+          <div class="checkbox">
+            <label class="incognito-control">
+              <input type="checkbox" />
+              <span>Allow in incognito</span>
+            </label>
+          </div>
+          <div class="checkbox error-collection-control" hidden="">
+            <label>
+              <input type="checkbox" />
+              <span>Collect errors</span>
+            </label>
+          </div>
+          <div class="checkbox all-urls-control" hidden="">
+            <label>
+              <input type="checkbox" />
+              <span>Allow on all websites</span>
+            </label>
+          </div>
+          <div class="checkbox file-access-control" hidden="">
+            <label>
+              <input type="checkbox" />
+              <span>Allow access to file URLs</span>
+            </label>
+          </div>
+        </div>
+        <div class="butter-bar" i18n-values=".innerHTML:extensionSettingsIncognitoWarning" hidden=""><b>Warning:</b> Google Chrome cannot prevent extensions from recording your browsing history. To disable this extension in incognito mode, unselect this option.</div>
+      </div>
+      <div class="enable-controls">
+        <a is="action-link" role="button" class="terminated-reload-link" hidden="" tabindex="0">
+          Reload
+        </a>
+        <a is="action-link" role="button" class="corrupted-repair-button" hidden="" tabindex="0">
+          Repair
+        </a>
+        <div class="checkbox enable-checkbox" hidden=""><label>
+          <input type="checkbox" />
+          <span class="enable-checkbox-text">
+            <span class="enabled-text">Enabled</span>
+            <span class="enable-text">Enable</span>
+          </span>
+        </label>
+        <span class="location-text"></span>
+        <span class="blacklist-text"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <li class="dependent-list-item">
+    <span class="dep-extension-title"></span>
+    <ul>
+      <li>
+        <span>ID:</span>
+        <span class="dep-extension-id"></span>
+      </li>
+    </ul>
+  </li>
+
+
+  <button class="trash custom-appearance">
+  <span class="lid"></span>
+  <span class="can"></span>
+</button>
+
+  <!--
+Copyright 2013 The Chromium Authors. All rights reserved.
+Use of this source code is governed by a BSD-style license that can be found
+in the LICENSE file.
+-->
+<div id="template-collection-extension-error" hidden="">
+  <div class="extension-error-list">
+    <div class="extension-error-list-heading">
+      <span>Errors</span>
+      <a id="extension-error-list-clear" is="action-link" tabindex="0" role="link">
+        Clear all
+      </a>
+    </div>
+    <ul class="extension-error-list-contents"></ul>
+    <span id="no-errors-span" hidden="">Awesome, no errors!</span>
+  </div>
+  <li class="extension-error-metadata">
+    <p class="extension-error-message" tabindex="0"></p>
+    <button class="custom-appearance error-delete-button"></button>
+  </li>
+</div>
+
+
+</div>
+
+<script src="chrome://extensions-frame/strings.js"></script>
+<script src="chrome://resources/js/i18n_template.js"></script>
+
+
+
+</body></html>
+
+

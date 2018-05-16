@@ -1,0 +1,104 @@
+{
+   "add_credential": {
+      "message": "Toevoegen"
+   },
+   "analytics_enabled": {
+      "message": "Inschakelen van Google Analytics?"
+   },
+   "analytics_section": {
+      "message": "Google Analytics"
+   },
+   "clear_button": {
+      "message": "Wis alle gegevens"
+   },
+   "clear_credential": {
+      "message": "Wissen"
+   },
+   "clear_credentials_modal_text": {
+      "message": "Bent u zeker dat u alle inloggegevens wil verwijderen?"
+   },
+   "clear_credentials_modal_title": {
+      "message": "Wis alle inloggegevens"
+   },
+   "clear_section": {
+      "message": "Wis alle gegevens"
+   },
+   "credentials_section": {
+      "message": "Inloggegevens"
+   },
+   "donate": {
+      "message": "Vind je dit een handige extensie? Doneer dan een klein bedrag:"
+   },
+   "edit_credential": {
+      "message": "Bewerken"
+   },
+   "export_button": {
+      "message": "Download alle gegevens in JSON formaat."
+   },
+   "export_section": {
+      "message": "Exporteer"
+   },
+   "extDescription": {
+      "message": "Log automatisch in via Basic Authenticatie doormiddel van een URL reguliere expressie."
+   },
+   "extName": {
+      "message": "MultiPass voor HTTP basic authenticatie"
+   },
+   "import_description": {
+      "message": "U kan uw inloggegevens importeren in deze extensie. Dit is het bestandsformaat:"
+   },
+   "import_file": {
+      "message": "Te importeren bestanden"
+   },
+   "import_json": {
+      "message": "Te importeren JSON"
+   },
+   "import_nothing": {
+      "message": "-niets-"
+   },
+   "import_section": {
+      "message": "Importeren"
+   },
+   "import_submit": {
+      "message": "Importeer"
+   },
+   "import_what": {
+      "message": "Welke gegevens worden geïmporteerd?"
+   },
+   "modal_cancel": {
+      "message": "Annuleren"
+   },
+   "modal_yes": {
+      "message": "Ja"
+   },
+   "open_option_page": {
+      "message": "Open de opties pagina."
+   },
+   "password": {
+      "message": "Wachtwoord"
+   },
+   "priority": {
+      "message": "Prioriteit"
+   },
+   "remove_credential": {
+      "message": "Verwijderen"
+   },
+   "show_hide_password": {
+      "message": "Tonen / Verbergen"
+   },
+   "test_section": {
+      "message": "Test de reguliere expressie"
+   },
+   "tested_regex_label": {
+      "message": "De reguliere expressie:"
+   },
+   "tested_urls": {
+      "message": "Geteste URLs:"
+   },
+   "url_regexp": {
+      "message": "Url (regexp)"
+   },
+   "username": {
+      "message": "Gebruikersnaam"
+   }
+}

@@ -1,0 +1,175 @@
+<!doctype html>
+<html>
+    <head>
+        <title data-i18n="extName">MultiPass for HTTP basic authentication</title>
+        <link rel="stylesheet" type="text/css" href="css/chrome-bootstrap.css"/>
+        <link rel="stylesheet" type="text/css" href="css/style.css"/>
+    </head>
+
+    <body class="chrome-bootstrap">
+        <main class="mainview view">
+            <h2 data-i18n="credentials_section">Credentials</h2>
+
+            <table class="credential-table">
+                <thead>
+                    <tr>
+                        <th class="url" data-i18n="url_regexp">Url (regexp)</th>
+                        <th class="username" data-i18n="username">Username</th>
+                        <th class="password" data-i18n="password">Password</th>
+                        <th class="action">&nbsp;</th>
+                    </tr>
+                </thead>
+
+                <tbody class="credentials">
+                </tbody>
+
+                <tfoot>
+                    <form id="credential-form">
+                        <tr>
+                            <td class="url">
+                                <label for="url" data-i18n="url">Url</label>
+                                <input type="text" name="url" id="url" required="required">
+                            </td>
+                            <td class="username">
+                                <label for="username" data-i18n="username">Username</label>
+                                <input type="text" name="username" id="username" required="required">
+                            </td>
+                            <td class="password">
+                                <label for="password" data-i18n="password">Password</label>
+                                <input type="password" name="password" id="password" required="required">
+                            </td>
+                            <td class="priority">
+                                <label for="priority" data-i18n="priority">Priority</label>
+                                <input type="number" value="1" name="priority" id="priority" required="required">
+                            </td>
+                            <td class="action">
+                                <button type="submit" class="credential-form-submit" data-i18n="add_credential">Add</button>
+                                <button type="reset" class="credential-form-reset" data-i18n="clear_credential">Clear</button>
+                            </td>
+                        </tr>
+                    </form>
+                </tfoot>
+            </table>
+
+            <h2 data-i18n="test_section">Test your regex</h2>
+
+            <form class="test-form">
+                <table class="form-table">
+                    <tr>
+                        <td>
+                            <label for="test-regex" data-i18n="tested_regex_label">Your regex: </label>
+                        </td>
+                        <td>
+                            <input type="text" name="test-regex" id="test-regex">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="test-urls" data-i18n="tested_urls">URLs under test:</label>
+                        </td>
+                        <td>
+                            <ul id="test-urls" contenteditable="true">
+                                <li>http://www.example.com</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+
+            <h2 data-i18n="import_section">Import</h2>
+
+            <p data-i18n="import_description">You can import credentials into the extension. The file format is the following:</p>
+            <pre>
+[
+    {"url":"some.url.com", "username":"admin", "password":"1234", "priority":"1"},
+    {"url":"example.com", "username":"john.doe", "password":"password", "priority":"2"}
+]
+            </pre>
+
+            <form class="import-form">
+                <table class="form-table">
+                    <tr>
+                        <td>
+                            <label for="import-file" data-i18n="import_file">Files to import</label>
+                        </td>
+                        <td>
+                            <input type="file" id="import-file" name="import_file[]" multiple/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="import-json" data-i18n="import_json">JSON to import</label>
+                        </td>
+                        <td>
+                            <textarea id="import-json" name="import_json"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-i18n="import_what">
+                            What will be imported?
+                        </td>
+                        <td>
+                            <output class="import-list" for="import" data-i18n="import_nothing">-nothing-</output>
+                        </td>
+                    </tr>
+                    <tr class="actions">
+                        <td colspan="2">
+                            <button type="submit" class="import-submit" data-i18n="import_submit">Import</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+
+            <h2 data-i18n="export_section">Export</h2>
+
+            <p><a href="#" download="multipass-credentials.json" class="export-credentials" data-i18n="export_button">Download credentials as JSON file.</a></p>
+
+            <h2 data-i18n="clear_section">Clear all credentials</h2>
+
+            <button class="clear-all" data-i18n="clear_button">Clear all credentials</button>
+
+            <h2 data-i18n="analytics_section">Google Analytics</h2>
+
+            <form class="analytics-form">
+                <table class="form-table">
+                    <tr>
+                        <td>
+                            <input type="checkbox" id="analytics-enabled" name="analytics_enabled"/>
+                        </td>
+                        <td>
+                            <label for="analytics-enabled" data-i18n="analytics_enabled">Enable Google Analytics ?</label>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+
+            <div class="footer">
+                <p>MultiPass - &copy; <a href="mailto:gilles@crettenand.info">Gilles Crettenand</a> - <span class="multipass-version"></span></p>
+                <p>
+                    <a href="http://www.wtfpl.net/">
+                        <img src="http://www.wtfpl.net/wp-content/uploads/2012/12/wtfpl-badge-4.png" width="80" height="15" alt="WTFPL"/>
+                    </a>
+                </p>
+            </div>
+        </main>
+
+        <div class="overlay" style="display: none;">
+            <div class="page">
+                <h1 class="overlay-title"></h1>
+                <div class="close-button"></div>
+                <div class="content-area overlay-content"></div>
+                <div class="action-area">
+                    <div class="action-area-right">
+                        <div class="button-strip">
+                            <button class="modal-cancel" data-i18n="modal_cancel">Cancel</button>
+                            <button class="modal-confirm" data-i18n="modal_yes">Yes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript" src="js/option.js"></script>
+    </body>
+
+</html>

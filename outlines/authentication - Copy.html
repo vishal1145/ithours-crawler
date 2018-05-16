@@ -1,0 +1,77 @@
+<!-- BEGIN: main -->
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<title>{title}</title>
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+
+<!-- Meta -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+{meta}
+
+<!-- Favicon icon -->
+<link rel="shortcut icon" href="{BASE_PATH}/assets/images/favicon.png" type="image/x-icon">
+<link rel="icon" href="{BASE_PATH}/assets/images/favicon.ico" type="image/x-icon">
+
+<!-- Toastr css-->
+<link rel="stylesheet" type="text/css" href="{BASE_PATH}/assets/plugins/toastr/toastr.min.css" />
+
+{links}
+</head>
+<body>
+<section class="login p-fixed d-flex text-center common-img-bg">
+	<!-- Container-fluid starts -->
+	<div class="container-fluid">
+		<div class="row">
+
+			<div class="col-sm-12">
+				<h1>{title}</h1>
+
+				<h1>deneme</h1>
+
+				{content}
+
+				<h1>Icerik alti</h1>
+			</div>
+			<!-- end of col-sm-12 -->
+		</div>
+		<!-- end of row -->
+	</div>
+	<!-- end of container-fluid -->
+</section>
+
+<!-- Required Jqurey -->
+<script src="{BASE_PATH}/assets/js/jquery-3.1.1.min.js"></script>
+
+<!-- Toastr -->
+<script src="{BASE_PATH}/assets/plugins/toastr/toastr.min.js"></script>
+
+{scripts}
+
+<script>
+$(document).ready(function() {
+
+	toastr.options.progressBar	= true;
+	toastr.options.closeButton	= true;
+	toastr.options.timeOut		= 10000;
+
+	<!-- BEGIN: events -->
+	<!-- BEGIN: event -->
+	toastr.{type}('{message}');
+	<!-- END: event -->
+	<!-- END: events -->
+
+});
+</script>
+
+</body>
+</html>
+<!-- END: main -->

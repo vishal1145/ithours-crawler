@@ -1,0 +1,37 @@
+{
+   "author": "Gilles Crettenand \u003Cgilles@crettenand.info>",
+   "background": {
+      "persistent": true,
+      "scripts": [ "js/extension.js" ]
+   },
+   "browser_action": {
+      "default_icon": {
+         "19": "icons/icon-19.png",
+         "38": "icons/icon-38.png"
+      },
+      "default_popup": "popin.html"
+   },
+   "content_security_policy": "script-src 'self' https://www.google-analytics.com; object-src 'self'",
+   "default_locale": "en",
+   "description": "__MSG_extDescription__",
+   "homepage_url": "http://gilles.crettenand.info/MultiPass/",
+   "icons": {
+      "128": "icons/icon-128.png",
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png",
+      "48": "icons/icon-48.png",
+      "64": "icons/icon-64.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAg8afMlPK3U6+xBGwaLzyn6CEGs/mS/P6K0LqlFIQFAEyk/+v6jTXfEDEQYwQuw8+8ySy473hL6z51cBGZOhioiywZAfevviM8Iv+awXQSe8u/9oXAbvCKeaefJRx6Op9xqkC+8O3nV8BbjA/ckJEzv6kLETOFhBWVv/Hzld5q9w/jyOYa/TqGKqjJA/l0MpYZyT+LB/LH618YsbHDmpBXags4nxXEBuwm4UDEILyVAbNuoNWVxUhRRkgwhrRRv2Y1LT+A20lGgKedGhTPg+WuPxBAIGoZDLKRyfV+hurU1SjKBDISIPbZqWAO2o+ysLniuzP59DMTrN000hG8IE34QIDAQAB",
+   "manifest_version": 2,
+   "name": "__MSG_extName__",
+   "offline_enabled": true,
+   "options_ui": {
+      "chrome_style": true,
+      "page": "options.html"
+   },
+   "permissions": [ "webRequest", "webRequestBlocking", "storage", "tabs", "http://*/*", "https://*/*" ],
+   "short_name": "MultiPass",
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "0.7.4"
+}

@@ -1,0 +1,32 @@
+
+<configuration xmlns="http://logging.apache.org/log4php/">
+    <appender name="default" class="LoggerAppenderDailyFile">
+        <layout class="LoggerLayoutSimple" />
+        
+         <param name="file" value="C:\cron_logs\cron_log-%s.log" />
+        <param name="datePattern" value="Y-m-d" />
+    </appender>
+    <root>
+        <appender_ref ref="default" />
+    </root>
+</configuration>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

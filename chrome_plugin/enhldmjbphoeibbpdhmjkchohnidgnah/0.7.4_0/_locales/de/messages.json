@@ -1,0 +1,104 @@
+{
+   "add_credential": {
+      "message": "Hinzufügen"
+   },
+   "analytics_enabled": {
+      "message": "Google Analytics aktivieren?"
+   },
+   "analytics_section": {
+      "message": "Google Analytics"
+   },
+   "clear_button": {
+      "message": "Alle Zugangsdaten leeren"
+   },
+   "clear_credential": {
+      "message": "Leeren"
+   },
+   "clear_credentials_modal_text": {
+      "message": "Sind Sie sicher, dass Sie alle Zugangsdaten entfernen möchten?"
+   },
+   "clear_credentials_modal_title": {
+      "message": "Alle Zugangsdaten leeren"
+   },
+   "clear_section": {
+      "message": "Alle Zugangsdaten leeren"
+   },
+   "credentials_section": {
+      "message": "Zugangsdaten"
+   },
+   "donate": {
+      "message": "Mögen Sie diese Erweiterung? Eine kleine Spende wäre wirklich schön:"
+   },
+   "edit_credential": {
+      "message": "Bearbeiten"
+   },
+   "export_button": {
+      "message": "Zugangsdaten als JSON-Datei downloaden."
+   },
+   "export_section": {
+      "message": "Exportieren"
+   },
+   "extDescription": {
+      "message": "Automatisch bei HTTP Basic mit Daten, basierend auf URL-Regexp, einloggen."
+   },
+   "extName": {
+      "message": "MultiPass für Authentifizierung mit HTTP Basic"
+   },
+   "import_description": {
+      "message": "Sie können Zugangsdaten in die Erweiterung importieren. Das Dateformat ist folgendes:"
+   },
+   "import_file": {
+      "message": "Zu importierende Dateien"
+   },
+   "import_json": {
+      "message": "Zu importierendes JSON"
+   },
+   "import_nothing": {
+      "message": "-nichts-"
+   },
+   "import_section": {
+      "message": "Importieren"
+   },
+   "import_submit": {
+      "message": "Importieren"
+   },
+   "import_what": {
+      "message": "Was wird importiert?"
+   },
+   "modal_cancel": {
+      "message": "Abbrechen"
+   },
+   "modal_yes": {
+      "message": "Ja"
+   },
+   "open_option_page": {
+      "message": "Optionen öffnen"
+   },
+   "password": {
+      "message": "Passwort"
+   },
+   "priority": {
+      "message": "Priorität"
+   },
+   "remove_credential": {
+      "message": "Entfernen"
+   },
+   "show_hide_password": {
+      "message": "Anzeigen / Verbergen"
+   },
+   "test_section": {
+      "message": "Ihren regulären Ausdruck testen"
+   },
+   "tested_regex_label": {
+      "message": "Ihr regulärer Ausdruck:"
+   },
+   "tested_urls": {
+      "message": "URLs, die getestet werden:"
+   },
+   "url_regexp": {
+      "message": "Url (regulärer Ausdruck)"
+   },
+   "username": {
+      "message": "Benutzername"
+   }
+}

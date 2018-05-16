@@ -1,0 +1,104 @@
+{
+   "add_credential": {
+      "message": "Ajouter"
+   },
+   "analytics_enabled": {
+      "message": "Activer Google Analytics ?"
+   },
+   "analytics_section": {
+      "message": "Google Analytics"
+   },
+   "clear_button": {
+      "message": "Supprimer toutes les entrées"
+   },
+   "clear_credential": {
+      "message": "Vider"
+   },
+   "clear_credentials_modal_text": {
+      "message": "Êtes-vous sur de vouloir supprimer toutes les entrées ?"
+   },
+   "clear_credentials_modal_title": {
+      "message": "Supprimer toutes les entrées"
+   },
+   "clear_section": {
+      "message": "Supprimer toutes les entrées"
+   },
+   "credentials_section": {
+      "message": "Information de connexion"
+   },
+   "donate": {
+      "message": "Vous aimez cette extension ? Un petit gest est toujours le bienvenu:"
+   },
+   "edit_credential": {
+      "message": "Éditer"
+   },
+   "export_button": {
+      "message": "Télécharger les données au format JSON."
+   },
+   "export_section": {
+      "message": "Exporter"
+   },
+   "extDescription": {
+      "message": "Connexion automatique à une authentification HTTP basique en utilisant des données basées sur une expression régulière pour l'URL."
+   },
+   "extName": {
+      "message": "MultiPass pour authentification HTTP basique"
+   },
+   "import_description": {
+      "message": "Vous pouvez importer des données. Le format de fichier est le suivant:"
+   },
+   "import_file": {
+      "message": "Fichiers à importer"
+   },
+   "import_json": {
+      "message": "JSON à importer"
+   },
+   "import_nothing": {
+      "message": "-rien-"
+   },
+   "import_section": {
+      "message": "Importer"
+   },
+   "import_submit": {
+      "message": "Importer"
+   },
+   "import_what": {
+      "message": "Que sera-t-il importer ?"
+   },
+   "modal_cancel": {
+      "message": "Annuler"
+   },
+   "modal_yes": {
+      "message": "Oui"
+   },
+   "open_option_page": {
+      "message": "Ouvrir la page des préférences."
+   },
+   "password": {
+      "message": "Mot de passe"
+   },
+   "priority": {
+      "message": "Priorité"
+   },
+   "remove_credential": {
+      "message": "Enlever"
+   },
+   "show_hide_password": {
+      "message": "Afficher / Cacher"
+   },
+   "test_section": {
+      "message": "Testez votre expression régulière"
+   },
+   "tested_regex_label": {
+      "message": "Votre expression régulière:"
+   },
+   "tested_urls": {
+      "message": "URLs sur lesquelles tester:"
+   },
+   "url_regexp": {
+      "message": "Url (regexp)"
+   },
+   "username": {
+      "message": "Nom d'utilisateur"
+   }
+}
