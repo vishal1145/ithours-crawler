@@ -41,11 +41,24 @@ write_log_to_file("Closing all Chrome if working backround...\n");
 `taskkill /im chrome.exe /f`;
 
 sleep(1);
-
-
+while(true)
+{
 	write_log_to_file('Before Executing query .\n');	
 
-   $webdriver	= new WebDriver($GLOBALS['config']['webdriver']['host'], $GLOBALS['config']['webdriver']['port']);
+		$Query = 'SELECT * FROM `crawler_task` WHERE  status ="NEW" ORDER BY rand() LIMIT 1';
+		$Query_Results	= $dbo->execute($Query);
+
+		if (!sizeof($Query_Results))
+		break;
+
+		$task = $Query_Results[0];
+
+		echo 'task id '.$task['id'];
+
+		if ($task['type'] == 'search') {
+
+
+	    $webdriver	= new WebDriver($GLOBALS['config']['webdriver']['host'], $GLOBALS['config']['webdriver']['port']);
 		$webdriver->connect('chrome', '', array
 		(
 			'proxy'=>array
@@ -62,8 +75,8 @@ sleep(1);
 		$webdriver->setSpeed('SLOW');
 
 		
-		$webdriver->get('https://www.google.com/search?q=ithours');
-
+		$webdriver->get($task['query']);
+		//$webdriver->get('https://www.google.com/search?q=ithours');
 
 		//$res_array = $webdriver->findElementsBy(LocatorStrategy::cssSelector, '.rc');
 		
@@ -73,20 +86,51 @@ sleep(1);
 		//}
 
 		$res_array = $webdriver->findElementsBy(LocatorStrategy::cssSelector, '.rc');
+		$link_clicked= false;
 		foreach ($res_array as $one_block) {
 			$h3_element =    $one_block->findElementBy(LocatorStrategy::cssSelector, 'h3');
 			$a_eleamnt =  $h3_element->findElementBy(LocatorStrategy::cssSelector, 'a');
-			//if($a_eleamnt->getAttribute('href')=='')
-			echo $a_eleamnt->getAttribute('href');
-		}
 
+
+			//$Query = 'SELECT * FROM `crawler_task` WHERE  status ="NEW" ORDER BY rand() LIMIT 1';
+			//$site	= $dbo->execute($Query);
+			$site_domain = $task['target_domain'];
+
+			$is_domain_exists = strpos($a_eleamnt->getAttribute('href'), $site_domain);
+
+			if($is_domain_exists==true)
+			{
+				$ithours_link = $a_eleamnt->getAttribute('href');
+				$a_eleamnt->click();
+
+				$completed_time=time();
+				$sql = "UPDATE crawler_task SET status ='COMPLETED',completed_time='.$completed_time.' WHERE id= ".$task['id'];
+				$update_query_response	= $dbo->execute($sql);
+				$link_clicked = true;
+				$webdriver->closeWindow();
+				sleep(2);
+				$webdriver->close();
+				sleep(1);
+				break;
+				
+			}
+			
+			
+		}
+		if($link_clicked == false)
+			{
+			$next_page = $webdriver->findElementsBy(LocatorStrategy::cssSelector, '.f1');
+			$a_eleamnt =  $next_page->findElementBy(LocatorStrategy::cssSelector, 'a');
+			$a_eleamnt->click();
+
+			}
+		
 		sleep(1);
 
-	
+	}
 
 
-write_log_to_file("\nAll DONE\n");
-
+	}
 
 
 ?>
