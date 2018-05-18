@@ -41,6 +41,35 @@ write_log_to_file("Closing all Chrome if working backround...\n");
 `taskkill /im chrome.exe /f`;
 
 sleep(1);
+
+//Function to click on the Link
+
+ function checkLink($one_block,$site_domain,$webdriver){
+
+	$h3_element =    $one_block->findElementBy(LocatorStrategy::cssSelector, 'h3');
+	$a_eleamnt =  $h3_element->findElementBy(LocatorStrategy::cssSelector, 'a');
+
+	$is_domain_exists = strpos($a_eleamnt->getAttribute('href'), $site_domain);
+
+	$link_clicked = false;
+	if($is_domain_exists==true)
+			{
+							$ithours_link = $a_eleamnt->getAttribute('href');
+							$a_eleamnt->click();
+							$link_clicked = true;
+							sleep(15);
+						    $webdriver->closeWindow();
+							$webdriver->close();
+							$link_clicked = true;
+							
+				
+			}
+
+			return $link_clicked;
+
+ }
+
+
 while(true)
 {
 	write_log_to_file('Before Executing query .\n');	
@@ -54,9 +83,7 @@ while(true)
 		$task = $Query_Results[0];
 
 		echo 'task id '.$task['id'];
-
 		if ($task['type'] == 'search') {
-
 
 	    $webdriver	= new WebDriver($GLOBALS['config']['webdriver']['host'], $GLOBALS['config']['webdriver']['port']);
 		$webdriver->connect('chrome', '', array
@@ -75,44 +102,18 @@ while(true)
 		$webdriver->setSpeed('SLOW');
 		
 		$webdriver->get($task['query']);
+
+		sleep(15);
+
 		$site_domain = $task['target_domain'];
 
 		$link_clicked= false;
 
-		//$webdriver->get('https://www.google.com/search?q=ithours');
-
-		//$res_array = $webdriver->findElementsBy(LocatorStrategy::cssSelector, '.rc');
-		
-		//foreach ($res_array as $one_block) {
-			//$element =    $one_block->findElementBy(LocatorStrategy::cssSelector, 'h3');
-			//echo $element->getText();
-		//}
-
 		$res_array = $webdriver->findElementsBy(LocatorStrategy::cssSelector, '.rc');
 		
 		foreach ($res_array as $one_block) {
-			$h3_element =    $one_block->findElementBy(LocatorStrategy::cssSelector, 'h3');
-			$a_eleamnt =  $h3_element->findElementBy(LocatorStrategy::cssSelector, 'a');
-
-			$is_domain_exists = strpos($a_eleamnt->getAttribute('href'), $site_domain);
-
-			if($is_domain_exists==true)
-			{
-				$ithours_link = $a_eleamnt->getAttribute('href');
-				$a_eleamnt->click();
-
-				$completed_time=time();
-				$sql = "UPDATE crawler_task SET status ='COMPLETED',completed_time='.$completed_time.' WHERE id= ".$task['id'];
-				$update_query_response	= $dbo->execute($sql);
-				$link_clicked = true;
-				$webdriver->closeWindow();
-				sleep(2);
-				$webdriver->close();
-				sleep(1);
-				break;
-				
-			}
 			
+			checkLink($one_block,$site_domain,$webdriver);
 			
 		}
 		if($link_clicked == false)
@@ -129,7 +130,7 @@ while(true)
 				 $a_eleamnt =    $td_data[2]->findElementBy(LocatorStrategy::cssSelector, 'a');
 				 $ithours_link = $a_eleamnt->getAttribute('href');
 				 $a_eleamnt->click();
-				
+				 sleep(15);
 
 				 $res_array = $webdriver->findElementsBy(LocatorStrategy::cssSelector, '.rc');
 		
@@ -137,28 +138,8 @@ while(true)
 
 			if($link_clicked == true)
 				break;
-			$h3_element =    $one_block->findElementBy(LocatorStrategy::cssSelector, 'h3');
-			$a_eleamnt =  $h3_element->findElementBy(LocatorStrategy::cssSelector, 'a');
 
-			$is_domain_exists = strpos($a_eleamnt->getAttribute('href'), $site_domain);
-
-			if($is_domain_exists==true)
-			{
-				$ithours_link = $a_eleamnt->getAttribute('href');
-				$a_eleamnt->click();
-
-				$completed_time=time();
-				// $sql = "UPDATE crawler_task SET status ='COMPLETED',completed_time='.$completed_time.' WHERE id= ".$task['id'];
-				// $update_query_response	= $dbo->execute($sql);
-				$link_clicked = true;
-				$webdriver->closeWindow();
-				sleep(2);
-				$webdriver->close();
-				sleep(1);
-				break;
-				
-			}
-			
+			checkLink($one_block,$site_domain,$webdriver);
 			
 		    }
 			
@@ -178,7 +159,8 @@ while(true)
 				 $a_eleamnt =    $td_data[3]->findElementBy(LocatorStrategy::cssSelector, 'a');
 				 $ithours_link = $a_eleamnt->getAttribute('href');
 				 $a_eleamnt->click();
-				
+
+				 sleep(15);
 
 				 $res_array = $webdriver->findElementsBy(LocatorStrategy::cssSelector, '.rc');
 		
@@ -186,43 +168,21 @@ while(true)
 
 			if($link_clicked == true)
 				break;
-			$h3_element =    $one_block->findElementBy(LocatorStrategy::cssSelector, 'h3');
-			$a_eleamnt =  $h3_element->findElementBy(LocatorStrategy::cssSelector, 'a');
 
-			$is_domain_exists = strpos($a_eleamnt->getAttribute('href'), $site_domain);
+				$link_clicked = checkLink($one_block,$site_domain,$webdriver);
 
-			if($is_domain_exists==true)
-			{
-				$ithours_link = $a_eleamnt->getAttribute('href');
-				$a_eleamnt->click();
-
-				$completed_time=time();
-				// $sql = "UPDATE crawler_task SET status ='COMPLETED',completed_time='.$completed_time.' WHERE id= ".$task['id'];
-				// $update_query_response	= $dbo->execute($sql);
-				$link_clicked = true;
-				$webdriver->closeWindow();
-				sleep(2);
-				$webdriver->close();
-				sleep(1);
-				break;
-				
-			}
-			
+				echo $link_clicked;
 			
 		    }
 			
 			}
 
 			
-
-			
-		
 		
 
 	}
 
-
+	
 	}
-
 
 ?>
