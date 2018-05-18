@@ -73,9 +73,12 @@ while(true)
 		$webdriver->windowMaximize();
 		$webdriver->setImplicitWaitTimeout(10000);
 		$webdriver->setSpeed('SLOW');
-
 		
 		$webdriver->get($task['query']);
+		$site_domain = $task['target_domain'];
+
+		$link_clicked= false;
+
 		//$webdriver->get('https://www.google.com/search?q=ithours');
 
 		//$res_array = $webdriver->findElementsBy(LocatorStrategy::cssSelector, '.rc');
@@ -86,15 +89,10 @@ while(true)
 		//}
 
 		$res_array = $webdriver->findElementsBy(LocatorStrategy::cssSelector, '.rc');
-		$link_clicked= false;
+		
 		foreach ($res_array as $one_block) {
 			$h3_element =    $one_block->findElementBy(LocatorStrategy::cssSelector, 'h3');
 			$a_eleamnt =  $h3_element->findElementBy(LocatorStrategy::cssSelector, 'a');
-
-
-			//$Query = 'SELECT * FROM `crawler_task` WHERE  status ="NEW" ORDER BY rand() LIMIT 1';
-			//$site	= $dbo->execute($Query);
-			$site_domain = $task['target_domain'];
 
 			$is_domain_exists = strpos($a_eleamnt->getAttribute('href'), $site_domain);
 
@@ -119,13 +117,107 @@ while(true)
 		}
 		if($link_clicked == false)
 			{
-			$next_page = $webdriver->findElementsBy(LocatorStrategy::cssSelector, '.f1');
-			$a_eleamnt =  $next_page->findElementBy(LocatorStrategy::cssSelector, 'a');
-			$a_eleamnt->click();
+			//$next_pages = $webdriver->findElementBy(LocatorStrategy::cssSelector, '.f1');
 
-			}
+			$table_data	= $webdriver->findElementBy(LocatorStrategy::id, 'nav');
+			$tbody_data	= $table_data->findElementBy(LocatorStrategy::cssSelector, 'tbody');
+			$tr_data	= $tbody_data->findElementBy(LocatorStrategy::cssSelector, 'tr');
+			$td_data	= $tr_data->findElementsBy(LocatorStrategy::cssSelector, 'td');
+			// $td_1st_data_deleted = array_shift($td_data);
+			// $td_2nd_data_deleted = array_shift($td_data);
+
+				 $a_eleamnt =    $td_data[2]->findElementBy(LocatorStrategy::cssSelector, 'a');
+				 $ithours_link = $a_eleamnt->getAttribute('href');
+				 $a_eleamnt->click();
+				
+
+				 $res_array = $webdriver->findElementsBy(LocatorStrategy::cssSelector, '.rc');
 		
-		sleep(1);
+		    foreach ($res_array as $one_block){
+
+			if($link_clicked == true)
+				break;
+			$h3_element =    $one_block->findElementBy(LocatorStrategy::cssSelector, 'h3');
+			$a_eleamnt =  $h3_element->findElementBy(LocatorStrategy::cssSelector, 'a');
+
+			$is_domain_exists = strpos($a_eleamnt->getAttribute('href'), $site_domain);
+
+			if($is_domain_exists==true)
+			{
+				$ithours_link = $a_eleamnt->getAttribute('href');
+				$a_eleamnt->click();
+
+				$completed_time=time();
+				// $sql = "UPDATE crawler_task SET status ='COMPLETED',completed_time='.$completed_time.' WHERE id= ".$task['id'];
+				// $update_query_response	= $dbo->execute($sql);
+				$link_clicked = true;
+				$webdriver->closeWindow();
+				sleep(2);
+				$webdriver->close();
+				sleep(1);
+				break;
+				
+			}
+			
+			
+		    }
+			
+			}
+
+			if($link_clicked == false)
+			{
+			//$next_pages = $webdriver->findElementBy(LocatorStrategy::cssSelector, '.f1');
+
+			$table_data	= $webdriver->findElementBy(LocatorStrategy::id, 'nav');
+			$tbody_data	= $table_data->findElementBy(LocatorStrategy::cssSelector, 'tbody');
+			$tr_data	= $tbody_data->findElementBy(LocatorStrategy::cssSelector, 'tr');
+			$td_data	= $tr_data->findElementsBy(LocatorStrategy::cssSelector, 'td');
+			// $td_1st_data_deleted = array_shift($td_data);
+			// $td_2nd_data_deleted = array_shift($td_data);
+
+				 $a_eleamnt =    $td_data[3]->findElementBy(LocatorStrategy::cssSelector, 'a');
+				 $ithours_link = $a_eleamnt->getAttribute('href');
+				 $a_eleamnt->click();
+				
+
+				 $res_array = $webdriver->findElementsBy(LocatorStrategy::cssSelector, '.rc');
+		
+		    foreach ($res_array as $one_block){
+
+			if($link_clicked == true)
+				break;
+			$h3_element =    $one_block->findElementBy(LocatorStrategy::cssSelector, 'h3');
+			$a_eleamnt =  $h3_element->findElementBy(LocatorStrategy::cssSelector, 'a');
+
+			$is_domain_exists = strpos($a_eleamnt->getAttribute('href'), $site_domain);
+
+			if($is_domain_exists==true)
+			{
+				$ithours_link = $a_eleamnt->getAttribute('href');
+				$a_eleamnt->click();
+
+				$completed_time=time();
+				// $sql = "UPDATE crawler_task SET status ='COMPLETED',completed_time='.$completed_time.' WHERE id= ".$task['id'];
+				// $update_query_response	= $dbo->execute($sql);
+				$link_clicked = true;
+				$webdriver->closeWindow();
+				sleep(2);
+				$webdriver->close();
+				sleep(1);
+				break;
+				
+			}
+			
+			
+		    }
+			
+			}
+
+			
+
+			
+		
+		
 
 	}
 
