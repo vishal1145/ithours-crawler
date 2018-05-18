@@ -41,7 +41,7 @@ sleep(1);
 
 //Function to click on the Link
 
-function clickLink($site_domain, $webdriver)
+function clickLinkGoogle($site_domain, $webdriver)
 {
 	$link_clicked = false;
 	$res_array = $webdriver->findElementsBy(LocatorStrategy::cssSelector, '.rc');
@@ -65,7 +65,7 @@ return $link_clicked;
 
 }
 
-function openNextPage($pageNo, $webdriver)
+function openNextPageGoogle($pageNo, $webdriver)
 {
     $table_data = $webdriver->findElementBy(LocatorStrategy::id, 'nav');
     $tbody_data = $table_data->findElementBy(LocatorStrategy::cssSelector, 'tbody');
@@ -75,6 +75,40 @@ function openNextPage($pageNo, $webdriver)
     $a_eleamnt->click();
     sleep(15);
 }
+
+// function clickLinkYahoo($site_domain, $webdriver)
+// {
+// 		$link_clicked = false;
+// 	    $tbody_data = $webdriver->findElementBy(LocatorStrategy::id, 'web');
+// 		$tbody_data1 = $tbody_data->findElementBy(LocatorStrategy::cssSelector, 'ol');
+// 		$tbody_data2 = $tbody_data1->findElementsBy(LocatorStrategy::cssSelector, 'li');
+		
+		
+// 		foreach ($tbody_data2 as $one_block) {
+
+// 			$li = $one_block->findElementBy(LocatorStrategy::cssSelector, 'div');
+// 			$div1 = $li->findElementBy(LocatorStrategy::cssSelector, 'div');
+// 			$div2 = $div1->findElementBy(LocatorStrategy::cssSelector, 'div');
+// 			$div3 = $div2->findElementBy(LocatorStrategy::cssSelector, 'h3');
+// 			$a_eleamnt = $div3->findElementBy(LocatorStrategy::cssSelector, 'a');
+// 			$link = $a_eleamnt->getAttribute('href');
+			
+
+// 			$is_domain_exists = strpos($a_eleamnt->getAttribute('href'), $site_domain);
+// 			if ($is_domain_exists == true) {
+// 				$a_eleamnt->click();
+// 				sleep(15);
+// 				$webdriver->closeWindow();
+// 				$webdriver->close();
+// 				$link_clicked = true;
+// 				break;
+// 			}
+			
+// 		}
+
+// return $link_clicked;
+
+// }
 
 
 while (true) {
@@ -121,16 +155,16 @@ while (true) {
         
         $site_domain = $task['target_domain'];
         
-        $link_clicked = clickLink($site_domain,$webdriver);
+        $link_clicked = clickLinkGoogle($site_domain,$webdriver);
 		
         if ($link_clicked == false) {
-            openNextPage(2, $webdriver);
-			$link_clicked = clickLink($site_domain,$webdriver);
+            openNextPageGoogle(2, $webdriver);
+			$link_clicked = clickLinkGoogle($site_domain,$webdriver);
         }
         
         if ($link_clicked == false) {
-            openNextPage(3, $webdriver);
-            $link_clicked = clickLink($site_domain,$webdriver);
+            openNextPageGoogle(3, $webdriver);
+            $link_clicked = clickLinkGoogle($site_domain,$webdriver);
             
 		}
 	}if($task['engine'] == 'yahoo'){
@@ -160,6 +194,46 @@ while (true) {
 		$query =  "https://in.search.yahoo.com/search?p=".$task['query'];
 
 		$webdriver->get($query);
+
+		//sleep(15);
+        
+		$site_domain = $task['target_domain'];
+
+		
+		
+	
+		$link_clicked = false;
+	    $tbody_data = $webdriver->findElementBy(LocatorStrategy::id, 'web');
+		$tbody_data1 = $tbody_data->findElementBy(LocatorStrategy::cssSelector, 'ol');
+		$tbody_data2 = $tbody_data1->findElementsBy(LocatorStrategy::cssSelector, 'li');
+		
+		
+		foreach ($tbody_data2 as $one_block) {
+
+			$li = $one_block->findElementBy(LocatorStrategy::cssSelector, 'div');
+			$div1 = $li->findElementBy(LocatorStrategy::cssSelector, 'div');
+			$div2 = $div1->findElementBy(LocatorStrategy::cssSelector, 'div');
+			$div3 = $div2->findElementBy(LocatorStrategy::cssSelector, 'h3');
+			$a_eleamnt = $div3->findElementBy(LocatorStrategy::cssSelector, 'a');
+			$link = $a_eleamnt->getAttribute('href');
+			
+
+			$is_domain_exists = strpos($a_eleamnt->getAttribute('href'), $site_domain);
+			if ($is_domain_exists == true) {
+				$a_eleamnt->click();
+				sleep(15);
+				$webdriver->closeWindow();
+				$webdriver->close();
+				$link_clicked = true;
+				break;
+			}
+			
+		}
+
+
+
+        
+        
 		
 	}
 
