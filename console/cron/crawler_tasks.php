@@ -31,14 +31,15 @@ $html       = new simple_html_dom();
 $_mail_auto = false;
 
 
-write_log_to_file("Closing all Chrome Drivers if working backround...\n");
-`taskkill /im chromedriver.exe /f`;
+// write_log_to_file("Closing all Chrome Drivers if working backround...\n");
+// `taskkill /im chromedriver.exe /f`;
 
-write_log_to_file("Closing all Chrome if working backround...\n");
-`taskkill /im chrome.exe /f`;
+// write_log_to_file("Closing all Chrome if working backround...\n");
+// `taskkill /im chrome.exe /f`;
 
 sleep(1);
 
+$browser ='chrome';
 //Function to click on the Link
 
 function clickLinkGoogle($site_domain, $webdriver)
@@ -202,7 +203,7 @@ while (true) {
         
         if ($engine == 'google') {
             $webdriver = new WebDriver($GLOBALS['config']['webdriver']['host'], $GLOBALS['config']['webdriver']['port']);
-            $webdriver->connect('chrome', '', array(
+            $webdriver->connect($browser, '', array(
                 'proxy' => array(
                     'proxyType' => 'manual',
                     'httpProxy' => $bot['domain'] . ':' . $bot['http_port'],
@@ -246,7 +247,7 @@ while (true) {
         } elseif ($engine == 'yahoo') {
             
             $webdriver = new WebDriver($GLOBALS['config']['webdriver']['host'], $GLOBALS['config']['webdriver']['port']);
-            $webdriver->connect('chrome', '', array(
+            $webdriver->connect($browser, '', array(
                 'proxy' => array(
                     'proxyType' => 'manual',
                     'httpProxy' => $bot['domain'] . ':' . $bot['http_port'],
@@ -294,7 +295,7 @@ while (true) {
         } elseif ($engine == 'bing') {
             
             $webdriver = new WebDriver($GLOBALS['config']['webdriver']['host'], $GLOBALS['config']['webdriver']['port']);
-            $webdriver->connect('chrome', '', array(
+            $webdriver->connect($browser, '', array(
                 'proxy' => array(
                     'proxyType' => 'manual',
                     'httpProxy' => $bot['domain'] . ':' . $bot['http_port'],
