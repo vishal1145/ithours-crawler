@@ -1,6 +1,6 @@
 <?php
 
-function clickLinkGoogle($site_domain, $webdriver)
+function clickLinkGoogle($task, $webdriver)
 {
     $link_clicked = false;
     $res_array    = $webdriver->findElementsBy(LocatorStrategy::cssSelector, '.rc');
@@ -8,10 +8,10 @@ function clickLinkGoogle($site_domain, $webdriver)
         
         $h3_element       = $one_block->findElementBy(LocatorStrategy::cssSelector, 'h3');
         $a_eleamnt        = $h3_element->findElementBy(LocatorStrategy::cssSelector, 'a');
-        $is_domain_exists = strpos($a_eleamnt->getAttribute('href'), $site_domain);
+        $is_domain_exists = strpos($a_eleamnt->getAttribute('href'), $task['target_domain']);
         if ($is_domain_exists == true) {
             $a_eleamnt->click();
-            sleep(15);
+            sleep($task['wait_factor']);
             $webdriver->closeWindow();
             $webdriver->close();
             $link_clicked = true;
@@ -32,7 +32,7 @@ function openNextPageGoogle($pageNo, $webdriver)
     $td_data    = $tr_data->findElementsBy(LocatorStrategy::cssSelector, 'td');
     $a_eleamnt  = $td_data[$pageNo]->findElementBy(LocatorStrategy::cssSelector, 'a');
     $a_eleamnt->click();
-    sleep(15);
+    sleep(5);
 }
 
 ?>

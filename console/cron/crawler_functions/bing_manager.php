@@ -9,11 +9,11 @@ function clickLinkBing($site_domain, $webdriver)
         $a_eleamnt = $h2->findElementBy(LocatorStrategy::cssSelector, 'a');
         $link      = $a_eleamnt->getAttribute('href');
         
-        $is_domain_exists = strpos($a_eleamnt->getAttribute('href'), $site_domain);
+        $is_domain_exists = strpos($a_eleamnt->getAttribute('href'), $task['target_domain']);
         
         if ($is_domain_exists == true) {
             $a_eleamnt->click();
-            sleep(6);
+            sleep($task['wait_factor']);
             $webdriver->closeWindow();
             $webdriver->close();
             $link_clicked = true;
@@ -43,7 +43,7 @@ function openNextPageBing($pageNo, $webdriver, $is_first_page)
     
     $next_page = $child_li_data[$next_page_index]->findElementBy(LocatorStrategy::cssSelector, 'a');
     $next_page->click();
-    sleep(6);
+    sleep(5);
     
 }
 

@@ -1,5 +1,5 @@
 <?php
-function clickLinkYahoo($site_domain, $webdriver)
+function clickLinkYahoo($task, $webdriver)
 {
     $link_clicked = false;
     
@@ -11,11 +11,11 @@ function clickLinkYahoo($site_domain, $webdriver)
         $a_eleamnt = $h3->findElementBy(LocatorStrategy::cssSelector, 'a');
         $link      = $a_eleamnt->getAttribute('href');
         
-        $is_domain_exists = strpos($a_eleamnt->getAttribute('href'), $site_domain);
+        $is_domain_exists = strpos($a_eleamnt->getAttribute('href'), $task['target_domain']);
         
         if ($is_domain_exists == true) {
             $a_eleamnt->click();
-            sleep(6);
+            sleep($task['wait_factor']);
             $webdriver->closeWindow();
             $webdriver->close();
             $link_clicked = true;
@@ -46,6 +46,7 @@ function openNextPageYahoo($pageNo, $webdriver, $is_first_page)
     $next_page = $a_eleamnt[$next_page_index];
     $read_link = $next_page->getAttribute('href');
     $next_page->click();
+    sleep(5);
     
     
 }
