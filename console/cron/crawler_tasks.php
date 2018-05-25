@@ -213,7 +213,8 @@ while (true) {
             
             $driverManager->webdriver->get($query);
             
-            sleep(5);
+            $sleep_time = rand($task['min_wait_factor'],$task['max_wait_factor']);
+            sleep($sleep_time);
             
             //$site_domain = $task['target_domain'];
             
@@ -243,7 +244,8 @@ while (true) {
             
             $driverManager->webdriver->get($query);
             
-            sleep(5);
+            $sleep_time = rand($task['min_wait_factor'],$task['max_wait_factor']);
+            sleep($sleep_time);
             
             //$site_domain   = $task['target_domain'];
             //$site_domain   = "php.net";
@@ -276,7 +278,8 @@ while (true) {
             $query = "https://www.bing.com/search?q=" . $task['query'];
             
             $driverManager->webdriver->get($query);
-            sleep(5);
+            $sleep_time = rand($task['min_wait_factor'],$task['max_wait_factor']);
+            sleep($sleep_time);
             
             $link_clicked  = clickLinkBing($task, $driverManager->webdriver);
             $is_first_page = true;
@@ -310,7 +313,8 @@ while (true) {
             //http://ithours.com/
             $driverManager->webdriver->get($query);
            
-            sleep($task['wait_factor']);
+            $sleep_time = rand($task['min_wait_factor'],$task['max_wait_factor']);
+            sleep($sleep_time);
             $driverManager->webdriver->closeWindow();
             $driverManager->webdriver->close();
 

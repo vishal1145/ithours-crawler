@@ -13,7 +13,8 @@ function clickLinkBing($site_domain, $webdriver)
         
         if ($is_domain_exists == true) {
             $a_eleamnt->click();
-            sleep($task['wait_factor']);
+            $sleep_time = rand($task['min_wait_factor'],$task['max_wait_factor']);
+            sleep($sleep_time);
             $webdriver->closeWindow();
             $webdriver->close();
             $link_clicked = true;
@@ -43,7 +44,8 @@ function openNextPageBing($pageNo, $webdriver, $is_first_page)
     
     $next_page = $child_li_data[$next_page_index]->findElementBy(LocatorStrategy::cssSelector, 'a');
     $next_page->click();
-    sleep(5);
+    $sleep_time = rand($task['min_wait_factor'],$task['max_wait_factor']);
+    sleep($sleep_time);
     
 }
 

@@ -11,7 +11,8 @@ function clickLinkGoogle($task, $webdriver)
         $is_domain_exists = strpos($a_eleamnt->getAttribute('href'), $task['target_domain']);
         if ($is_domain_exists == true) {
             $a_eleamnt->click();
-            sleep($task['wait_factor']);
+            $sleep_time = rand($task['min_wait_factor'],$task['max_wait_factor']);
+            sleep($sleep_time);
             $webdriver->closeWindow();
             $webdriver->close();
             $link_clicked = true;
@@ -32,7 +33,8 @@ function openNextPageGoogle($pageNo, $webdriver)
     $td_data    = $tr_data->findElementsBy(LocatorStrategy::cssSelector, 'td');
     $a_eleamnt  = $td_data[$pageNo]->findElementBy(LocatorStrategy::cssSelector, 'a');
     $a_eleamnt->click();
-    sleep(5);
+    $sleep_time = rand($task['min_wait_factor'],$task['max_wait_factor']);
+    sleep($sleep_time);
 }
 
 ?>

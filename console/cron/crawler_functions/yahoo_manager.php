@@ -15,7 +15,8 @@ function clickLinkYahoo($task, $webdriver)
         
         if ($is_domain_exists == true) {
             $a_eleamnt->click();
-            sleep($task['wait_factor']);
+            $sleep_time = rand($task['min_wait_factor'],$task['max_wait_factor']);
+            sleep($sleep_time);
             $webdriver->closeWindow();
             $webdriver->close();
             $link_clicked = true;
@@ -46,7 +47,8 @@ function openNextPageYahoo($pageNo, $webdriver, $is_first_page)
     $next_page = $a_eleamnt[$next_page_index];
     $read_link = $next_page->getAttribute('href');
     $next_page->click();
-    sleep(5);
+    $sleep_time = rand($task['min_wait_factor'],$task['max_wait_factor']);
+    sleep($sleep_time);
     
     
 }
