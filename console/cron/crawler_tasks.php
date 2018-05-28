@@ -24,6 +24,7 @@ require_once('./crawler_functions/yahoo_manager.php');
 require_once('./crawler_functions/bing_manager.php');
 require_once('./crawler_functions/google_manager.php');
 require_once('./crawler_functions/driver_manager.php');
+require_once('./crawler_functions/user_journey_manager.php');
 
 
 
@@ -37,23 +38,22 @@ $dbo        = get_dbo();
 $html       = new simple_html_dom();
 $_mail_auto = false;
 
-
- write_log_to_file("Closing all Chrome Drivers if working backround...\n");
- `taskkill /im chromedriver.exe /f`;
-
- write_log_to_file("Closing all Chrome if working backround...\n");
- `taskkill /im chrome.exe /f`;
-
-sleep(1);
-
 $browser ='chrome';
 
-
-//$engines =[""]
 while (true) {
     write_log_to_file('Before Executing query .\n');
     
-    $Query         = 'SELECT * FROM `crawler_task` ORDER BY rand() LIMIT 1';
+    write_log_to_file("Closing all Chrome Drivers if working backround...\n");
+    `taskkill /im chromedriver.exe /f`;
+   
+    write_log_to_file("Closing all Chrome if working backround...\n");
+    `taskkill /im chrome.exe /f`;
+
+    sleep(1);
+
+    //$Query         = 'SELECT * FROM `crawler_task` ORDER BY rand() LIMIT 1';
+    $Query         = 'SELECT * FROM `crawler_task` where type ="user_journey" ORDER BY rand() LIMIT 1';
+    
     $Query_Results = $dbo->execute($Query);
     if (!sizeof($Query_Results))
         break;
@@ -76,6 +76,9 @@ while (true) {
     //$engine = 'google';
     //$task['type'] = 'search';
     //$task['type'] = 'direct_hit';
+    //$task['type'] = 'user_journey';
+    $task['type'] = 'quora';
+
 
     if ($task['type'] == 'create_bot') {
 
@@ -85,48 +88,45 @@ while (true) {
 		$proxy			= $dbo->execute('SELECT * FROM proxies ORDER BY rand() LIMIT 1');
 		$proxy			= $proxy[0];
 		$country_code	= $proxy['country_code'];
+        
+        //name should be random
+        $first_name	="";
+        $last_name="";
+        while (true) {
 
-		//-------------------------------------------------------------------------------------------------------------
-		// Yeni üretilecek bot için ad ve soyad bul.
-		//-------------------------------------------------------------------------------------------------------------
-		// while (true) {
+			// Proxy ülke koduna göre rastgele ad bulmaya çalış.
+			$first_name	= $dbo->execute('SELECT * FROM first_names WHERE country_code=\''.$country_code.'\' ORDER BY rand() LIMIT 1');
 
-			// // Proxy ülke koduna göre rastgele ad bulmaya çalış.
-			// $first_name	= $dbo->execute('SELECT * FROM first_names WHERE country_code=\''.$country_code.'\' ORDER BY rand() LIMIT 1');
+			// Bu ülke için ad yoksa, global (*) adlar arasından seç.
+			if (!sizeof($first_name))
+				$first_name	= $dbo->execute('SELECT * FROM first_names WHERE country_code=\'*\' ORDER BY rand() LIMIT 1');
 
-			// // Bu ülke için ad yoksa, global (*) adlar arasından seç.
-			// if (!sizeof($first_name))
-			// 	$first_name	= $dbo->execute('SELECT * FROM first_names WHERE country_code=\'*\' ORDER BY rand() LIMIT 1');
+			// Proxy ülke koduna göre rastgele soyad bulmaya çalış.
+			$last_name	= $dbo->execute('SELECT * FROM last_names WHERE country_code=\''.$country_code.'\' ORDER BY rand() LIMIT 1');
 
-			// // Proxy ülke koduna göre rastgele soyad bulmaya çalış.
-			// $last_name	= $dbo->execute('SELECT * FROM last_names WHERE country_code=\''.$country_code.'\' ORDER BY rand() LIMIT 1');
+			// Bu ülke için soyad yoksa, global (*) soyadlar arasından seç.
+			if (!sizeof($last_name))
+				$last_name	= $dbo->execute('SELECT * FROM last_names WHERE country_code=\'*\' ORDER BY rand() LIMIT 1');
 
-			// // Bu ülke için soyad yoksa, global (*) soyadlar arasından seç.
-			// if (!sizeof($last_name))
-			// 	$last_name	= $dbo->execute('SELECT * FROM last_names WHERE country_code=\'*\' ORDER BY rand() LIMIT 1');
+			$first_name	= $first_name[0]['name'];
+			$last_name	= $last_name[0]['name'];
 
-			// $first_name	= $first_name[0]['name'];
-			// $last_name	= $last_name[0]['name'];
+			// Bu ad soyad ikilisi herhangi bir bot için daha önce kullanılmış mı kontrol et.
+			if (!$dbo->exists('bots', array('first_name'=>$first_name, 'last_name'=>$last_name)))
+				break;
 
-			// // Bu ad soyad ikilisi herhangi bir bot için daha önce kullanılmış mı kontrol et.
-			// if (!$dbo->exists('bots', array('first_name'=>$first_name, 'last_name'=>$last_name)))
-			// 	break;
+			// Eğer bir bot tarafından kullanılmışsa, bu sefer yalnızca global isimler üzerinden dene.
+			$first_name	= $dbo->execute('SELECT * FROM first_names WHERE country_code=\'*\' ORDER BY rand() LIMIT 1');
+			$last_name	= $dbo->execute('SELECT * FROM last_names WHERE country_code=\'*\' ORDER BY rand() LIMIT 1');
+			$first_name	= $first_name[0]['name'];
+			$last_name	= $last_name[0]['name'];
 
-			// // Eğer bir bot tarafından kullanılmışsa, bu sefer yalnızca global isimler üzerinden dene.
-			// $first_name	= $dbo->execute('SELECT * FROM first_names WHERE country_code=\'*\' ORDER BY rand() LIMIT 1');
-			// $last_name	= $dbo->execute('SELECT * FROM last_names WHERE country_code=\'*\' ORDER BY rand() LIMIT 1');
-			// $first_name	= $first_name[0]['name'];
-			// $last_name	= $last_name[0]['name'];
+			// Bu ad soyad ikilisi herhangi bir bot için daha önce kullanılmış mı kontrol et.
+			if (!$dbo->exists('bots', array('first_name'=>$first_name, 'last_name'=>$last_name)))
+				break;
 
-			// // Bu ad soyad ikilisi herhangi bir bot için daha önce kullanılmış mı kontrol et.
-			// if (!$dbo->exists('bots', array('first_name'=>$first_name, 'last_name'=>$last_name)))
-            // 	break;
+		}
             
-            $first_name	="Abhitesh";
-			$last_name="singh";
-
-		// }
-
 		//-------------------------------------------------------------------------------------------------------------
 		// Bot bilgilerini oluştur.
 		//-------------------------------------------------------------------------------------------------------------
@@ -147,8 +147,6 @@ while (true) {
 
 		// Botu veritabanına kaydet.
 		$bot['id']	= $dbo->insert('bots', $bot);
-
-		//print_r($bot);
 
 		//-------------------------------------------------------------------------------------------------------------
 		// Chrome multipass eklenti ayarlarını yapılandır.
@@ -202,7 +200,8 @@ while (true) {
 		$webdriver->closeWindow();
 		sleep(2);
 		$webdriver->close();
-		sleep(1);
+        sleep(1);
+        
     }elseif($task['type'] == 'search') {
         
         if ($engine == 'google') {
@@ -304,19 +303,37 @@ while (true) {
           }
             
         }
-    }elseif($task['type'] == 'direct_hit')
-    {
+    }elseif($task['type'] == 'direct_hit')    {
         $driverManager = driverManager();
-            
-            //$query = "http://".$task['target_domain']."/";
             $query = $task['target_domain'];
-            //http://ithours.com/
             $driverManager->webdriver->get($query);
-           
             $sleep_time = rand($task['min_wait_factor'],$task['max_wait_factor']);
             sleep($sleep_time);
             $driverManager->webdriver->closeWindow();
             $driverManager->webdriver->close();
+
+    }
+    elseif($task['type'] == 'user_journey')
+    {
+
+        $user_journey_function_call = user_journey_function($task);
+
+    }
+    elseif($task['type'] == 'quora')    {
+        $driverManager = driverManager();
+            $query ="https://www.quora.com/";
+            $driverManager->webdriver->get($query);
+           //$sleep_time = rand($task['min_wait_factor'],$task['max_wait_factor']);
+            //sleep(5);
+            
+            // $div_id    = $driverManager->webdriver->findElementBy(LocatorStrategy::id, '__w2_OWY3YUm_connect_explanation');
+            // $a_element = $div_id->findElementBy(LocatorStrategy::cssSelector, 'a');
+            // $a_element->click();
+            $css_selector = '//*[@id="__w2_JbwLNZ3_continue_with_email"]';
+            $link = $driverManager->webdriver->findElementBy(LocatorStrategy::xpath, $css_selector);
+        $link->click();
+            sleep(5);
+            
 
     }
 }
