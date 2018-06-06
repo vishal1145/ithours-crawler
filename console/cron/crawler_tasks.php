@@ -25,7 +25,7 @@ require_once('./crawler_functions/bing_manager.php');
 require_once('./crawler_functions/google_manager.php');
 require_once('./crawler_functions/driver_manager.php');
 require_once('./crawler_functions/user_journey_manager.php');
-//require_once('./crawler_functions/site_crawling.php');
+require_once('./crawler_functions/site_crawling.php');
 
 
 
@@ -305,7 +305,7 @@ while (true) {
           }
             
         }
-    }elseif($task['type'] == 'direct_hit')    {
+    }elseif($task['type'] == 'direct_hit'){
         $driverManager = driverManager();
             $query = $task['target_domain'];
             $driverManager->webdriver->get($query);
@@ -338,7 +338,7 @@ while (true) {
             
 
     }
-    elseif($task['type'] == 'siteCrawling')
+    elseif($task['type'] == 'siteCrawling1')
     {
         $dbo        = get_dbo();
 
@@ -472,6 +472,10 @@ while (true) {
 
 
 		
+    }elseif($task['type'] == 'siteCrawling')
+    {
+        $k=siteCrawling();
+        echo "Abhitesh";
     }
 }
 ?>

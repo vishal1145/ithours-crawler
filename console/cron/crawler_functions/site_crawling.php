@@ -1,114 +1,35 @@
 <?php
- $dbo        = get_dbo();
-write_log_to_file('Registering a Bot...'."\n");
+	function siteCrawling()
+	{
+		
+        $dbo        = get_dbo();
 
-// Rastgele bir proxy seç.
-$proxy			= $dbo->execute('SELECT * FROM proxies ORDER BY rand() LIMIT 1');
-$proxy			= $proxy[0];
-$country_code	= $proxy['country_code'];
+        write_log_to_file('Sign-up into site...'."\n");
 
-//-------------------------------------------------------------------------------------------------------------
-// Yeni üretilecek bot için ad ve soyad bul.
-//-------------------------------------------------------------------------------------------------------------
-while (true) {
+        $proxy			= $dbo->execute('SELECT * FROM proxies ORDER BY rand() LIMIT 1');
+		$proxy			= $proxy[0];
+        $country_code	= $proxy['country_code'];
 
-    // Proxy ülke koduna göre rastgele ad bulmaya çalış.
-    $first_name	= $dbo->execute('SELECT * FROM first_names WHERE country_code=\''.$country_code.'\' ORDER BY rand() LIMIT 1');
+        $bots			= $dbo->execute('SELECT * FROM bots ORDER BY rand() LIMIT 1');
+        $bot			= $bots[0];
+       
+        $password     =    '';
+        $email        =    '';
+        $username     =    '';
+        $first_name   =     $bot['first_name'];
+        $last_name    =     $bot['last_name'];
+        $proxy_id     =     $bot['proxy_id'];
+        $country_code =     $bot['country_code'];
+        $created_time =     $bot['created_time'];
+        $status       =     $bot['status'];
+        $siteName     =    '';
+        $SessionId    =     $bot['id'];
 
-    // Bu ülke için ad yoksa, global (*) adlar arasından seç.
-    if (!sizeof($first_name))
-        $first_name	= $dbo->execute('SELECT * FROM first_names WHERE country_code=\'*\' ORDER BY rand() LIMIT 1');
-
-    // Proxy ülke koduna göre rastgele soyad bulmaya çalış.
-    $last_name	= $dbo->execute('SELECT * FROM last_names WHERE country_code=\''.$country_code.'\' ORDER BY rand() LIMIT 1');
-
-    // Bu ülke için soyad yoksa, global (*) soyadlar arasından seç.
-    if (!sizeof($last_name))
-        $last_name	= $dbo->execute('SELECT * FROM last_names WHERE country_code=\'*\' ORDER BY rand() LIMIT 1');
-
-    $first_name	= $first_name[0]['name'];
-    $last_name	= $last_name[0]['name'];
-
-    // Bu ad soyad ikilisi herhangi bir bot için daha önce kullanılmış mı kontrol et.
-    if (!$dbo->exists('bots', array('first_name'=>$first_name, 'last_name'=>$last_name)))
-        break;
-
-    // Eğer bir bot tarafından kullanılmışsa, bu sefer yalnızca global isimler üzerinden dene.
-    $first_name	= $dbo->execute('SELECT * FROM first_names WHERE country_code=\'*\' ORDER BY rand() LIMIT 1');
-    $last_name	= $dbo->execute('SELECT * FROM last_names WHERE country_code=\'*\' ORDER BY rand() LIMIT 1');
-    $first_name	= $first_name[0]['name'];
-    $last_name	= $last_name[0]['name'];
-
-    // Bu ad soyad ikilisi herhangi bir bot için daha önce kullanılmış mı kontrol et.
-    if (!$dbo->exists('bots', array('first_name'=>$first_name, 'last_name'=>$last_name)))
-        break;
-
-}
-    //-------------------------------------------------------------------------------------------------------------
-		// Bot bilgilerini oluştur.
-		//-------------------------------------------------------------------------------------------------------------
-		$bot = array
-		(
-			'email'				=> '',
-			'username'			=> '',
-			'password'			=> generate_key(rand(11, 16)),
-			'first_name'		=> $first_name,
-			'last_name'			=> $last_name,
-			'proxy_id'			=> $proxy['id'],
-			'country_code'		=> $country_code,
-			'target_followers'	=> rand(2, 10),				// Bu botu takip edecek bot sayısı. (2 ile 10 arasında rasgele)
-			'current_followers'	=> 0,
-			'created_time'		=> date('Y-m-d H:i:s'),
-			'status'			=> 'creating'
-		);
-
-		// Botu veritabanına kaydet.
-		$bot['id']	= $dbo->insert('bots', $bot);
-
-		//print_r($bot);
-
-		//-------------------------------------------------------------------------------------------------------------
-		// Chrome multipass eklenti ayarlarını yapılandır.
-		//-------------------------------------------------------------------------------------------------------------
-
-		$webdriver	= new WebDriver($GLOBALS['config']['webdriver']['host'], $GLOBALS['config']['webdriver']['port']);
-		$webdriver->connect('chrome', '', array
-		(
-			'chromeOptions'=>array('args'=>array('user-data-dir='.$GLOBALS['config']['bots_user_data_dir'].$bot['id'].'/','disable-infobars','ignore-certificate-errors','disable-notifications','load-extension='.$GLOBALS['config']['chrome_multipass_extension_dir']))
-		));
-
-		$webdriver->windowMaximize();
-		$webdriver->setImplicitWaitTimeout(10000);
-		$webdriver->setSpeed('SLOW');
-
-		$webdriver->get('chrome-extension://enhldmjbphoeibbpdhmjkchohnidgnah/options.html');
-		sleep(3);
-
-		$url_id_value=".*";
-		$webdriver->executeScript('document.getElementById("url").value="'.$url_id_value.'";', array());
-
-		$username_id_value=$GLOBALS['config']['proxy']['username'];
-		$webdriver->executeScript('document.getElementById("username").value="'.$username_id_value.'";', array());
-
-		$password_id_value=$GLOBALS['config']['proxy']['password'];
-		$webdriver->executeScript('document.getElementById("password").value="'.$password_id_value.'";', array());
-
-		sleep(2);
-
-		$element	= $webdriver->findElementBy(LocatorStrategy::id, 'analytics-enabled');
-		$element->click();
-
-		$element	= $webdriver->findElementBy(LocatorStrategy::cssSelector, '.credential-form-submit');
-		$element->click();
-
-		// Değişikliklerin etkin olması için pencereyi kapat.
-		$webdriver->closeWindow();
-		sleep(2);
-		$webdriver->close();
-        sleep(1);
         
-		// Yeni proxy ayarlarıyla yeni bir Chrome bağlantısı aç.
-		//-------------------------------------------------------------------------------------------------------------
+        $sql = "INSERT INTO siteBots (first_name, last_name,proxy_id,country_code,created_time,status,SessionId)
+        VALUES ('$first_name', '$last_name', '$proxy_id', '$country_code','$created_time', '$status','$SessionId')";
+        $row_inserted = $dbo->execute($sql);
+      
 		$webdriver	= new WebDriver($GLOBALS['config']['webdriver']['host'], $GLOBALS['config']['webdriver']['port']);
 		$webdriver->connect('chrome', '', array
 		(
@@ -130,7 +51,7 @@ while (true) {
 			write_log_to_file('Creating temp-mail.org account...'."\n");
 
 			// mytemp.email için çağrı yap.
-			$webdriver->get('https://yoast.com/wp-signup.php');
+			$webdriver->get('https://temp-mail.org/en/');
 
 			// input#mail görünene kadar bekle.
 			try {
@@ -155,26 +76,65 @@ while (true) {
 			// Botun kullanıcı adını e-posta adresinden türet.
 			$bot['username']	= substr($bot['email'], 0, strpos($bot['email'], '@')).generate_username(rand($settings['bot_username_min'], $settings['bot_username_max']));
 
-			// Botun veritabanı bilgilerini güncelle.
-			$dbo->update('bots', array('username'=>$bot['username'], 'email'=>$bot['email']), $bot['id']);
+            $email        =  $bot['email'];
+            $username     =  $bot['username'];
 
             write_log_to_file('Created temp-email.org account: ('.$bot['email'].")\n");
+
+            write_log_to_file('Sign-up the Account...'."\n");
             
+            $webdriver->get('https://yoast.com/wp-signup.php');
+
+            $webdriver->executeScript('document.getElementById("user_name").value="'.$username.'";', array());
+            sleep(3);
+
+            $webdriver->executeScript('document.getElementById("user_email").value="'.$email.'";', array());
+            sleep(3);
+
+            $click_on_next = 'document.getElementsByClassName("submit")[1].click()';
+            $webdriver->executeScript($click_on_next, array());
+            sleep(4);
+
+
+            $webdriver->get('https://temp-mail.org/en/');
+
+               write_log_to_file('Waiting for activation mail...'."\n");
+               
+            $click_on_subject = 'document.getElementsByClassName("title-subject")[0].click()';
+            $webdriver->executeScript($click_on_subject, array());
+            sleep(2);
+
+            $register_email_input = $webdriver->findElementBy(LocatorStrategy::xpath, '/html/body/div[1]/div/div/div[2]/div[1]/div[1]/div[3]/div/div/div/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/div/p[4]/a');
+            $register_email_input_url = $register_email_input->getText();
+            $webdriver->get($register_email_input_url);
+            //$register_email_input->click();
+               
+            $sign_up	= $webdriver->findElementBy(LocatorStrategy::id, 'signup-welcome');
+            $password_index	= $sign_up->findElementsBy(LocatorStrategy::cssSelector, 'p');
+            //$password = $password_index[1]->getText();
+
+            $password = substr($password_index[1]->getText(),10);
+
+            $sql1 = "update siteBots set email = '".$email."',username = '".$username."',password = '".$password."' where SessionId =".$SessionId;
+		
+			echo $sql1;
+	
+			$update_bot_Task_Completed_Response	= $dbo->execute($sql1);
             
-		//-------------------------------------------------------------------------------------------------------------
-		// Botu TradingView sitesine kayıt yap.
-		//-------------------------------------------------------------------------------------------------------------
-		write_log_to_file('Registering the bot...'."\n");
-		sleep(2);
-		 
-		$bot['email'] ="raedyn.arhaan@its0k.com";
-		$bot['username'] ="raedynarhaan";
-		
-		 $webdriver->get('https://www.tradingview.com/#signup');
-		$webdriver->executeScript('$(".js-tv-expected-language.tv-expected-language").remove();', array());
+            write_log_to_file('Activation mail found. Reading...'."\n");
+            
+            write_log_to_file('Ok...'."\n");
+            sleep(4);
+            $webdriver->closeWindow();
+				
+				$webdriver->close();
+				sleep(1);
 
-		
-
-
+	
+	}
+	
 
 ?>
+
+
+	
