@@ -1,7 +1,14 @@
 <?php
-	function siteCrawling()
-	{
-		
+//require_once('../crawler_factory.php');
+//require_once('./crawler_functions/mail_provider/temp_mail.php');
+require_once('C:\xampp\htdocs\ithours-crawler\console\cron\crawler_functions\mail_providers\temp_mail.php');
+require_once('C:\xampp\htdocs\ithours-crawler\console\cron\crawler_functions\crawler_factory.php');
+
+
+class YoastCrawler extends ICrawler {
+   
+    function register() {
+        
         $dbo        = get_dbo();
 
         write_log_to_file('Sign-up into site...'."\n");
@@ -46,32 +53,19 @@
 		$webdriver->setImplicitWaitTimeout(3000);
 		$webdriver->setSpeed('SLOW');
         sleep(2);
+
+
+        $povider_name= 'temp_mail';
+        $LINK ='REGISTRATION URL';
         
-        
-			write_log_to_file('Creating temp-mail.org account...'."\n");
+    
+    $crawlerObj = (new MailFactory())->GetMailProvider($povider_name);
+    
+             $bot['email'] = $crawlerObj->getRegisterEmail($webdriver);
+          
 
-			// mytemp.email için çağrı yap.
-			$webdriver->get('https://temp-mail.org/en/');
 
-			// input#mail görünene kadar bekle.
-			try {
-				$bot['email']	= wait_until(function() use ($webdriver) {
-					$mail	= $webdriver->findElementsBy(LocatorStrategy::cssSelector, 'input#mail');
-					if (sizeof($mail)) {
-						return $mail[0]->getAttribute('value');
-					}
-				});
-			} catch (exception $e) {
-				// E-posta adresi oluşturulamadı. Bot işlemlerini iptal et, yeniden denensin.
-				$dbo->delete('bots', $bot['id']);
-
-				$webdriver->closeWindow();
-				sleep(2);
-				$webdriver->close();
-				sleep(1);
-
-				continue;
-			}
+			
 
 			// Botun kullanıcı adını e-posta adresinden türet.
 			$bot['username']	= substr($bot['email'], 0, strpos($bot['email'], '@')).generate_username(rand($settings['bot_username_min'], $settings['bot_username_max']));
@@ -96,17 +90,13 @@
             sleep(4);
 
 
-            $webdriver->get('https://temp-mail.org/en/');
-
+           
                write_log_to_file('Waiting for activation mail...'."\n");
-               
-            $click_on_subject = 'document.getElementsByClassName("title-subject")[0].click()';
-            $webdriver->executeScript($click_on_subject, array());
-            sleep(2);
 
-            $register_email_input = $webdriver->findElementBy(LocatorStrategy::xpath, '/html/body/div[1]/div/div/div[2]/div[1]/div[1]/div[3]/div/div/div/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/div/p[4]/a');
-            $register_email_input_url = $register_email_input->getText();
-            $webdriver->get($register_email_input_url);
+               if($LINK == 'REGISTRATION URL')
+                 $activatio_URL = $crawlerObj->getActivationUrl($webdriver);
+           
+            $webdriver->get($activatio_URL);
             //$register_email_input->click();
                
             $sign_up	= $webdriver->findElementBy(LocatorStrategy::id, 'signup-welcome');
@@ -130,11 +120,12 @@
 				$webdriver->close();
 				sleep(1);
 
-	
-	}
-	
+    
+    
+    }
+
+
+    function login() {echo "login";}
+}
 
 ?>
-
-
-	
