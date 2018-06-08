@@ -25,9 +25,10 @@ require_once('./crawler_functions/bing_manager.php');
 require_once('./crawler_functions/google_manager.php');
 require_once('./crawler_functions/driver_manager.php');
 require_once('./crawler_functions/user_journey_manager.php');
+require_once('./crawler_functions/crawler_factory.php');
 require_once('./crawler_functions/site_crawlers/yoast_crawler.php');
 
-require_once('./crawler_functions/crawler_factory.php');
+
 
 require 'vendor/autoload.php';
 
@@ -363,11 +364,11 @@ while (true) {
     $process = 'REGISTRATION';
     
 
-$crawlerObj = (new CrawlerFactory())->GetCrawler($type);
+    $crawlerObj = (new CrawlerFactory())->GetCrawler($type);
 
      if($process == 'REGISTRATION')
      {
-         echo "abhitesh";
+      echo "abhitesh";
       $crawlerObj->register();
       echo "abhitesh";
      }

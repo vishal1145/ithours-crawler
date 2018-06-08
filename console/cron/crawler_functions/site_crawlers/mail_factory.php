@@ -6,7 +6,7 @@
 
 abstract class MailProvider {
     abstract function getRegisterEmail($webdriver);
-    abstract function getActivationUrl();
+    abstract function getActivationUrl($webdriver);
 }
 class MailFactory {
     private $context = "OReilly";  
@@ -16,8 +16,8 @@ class MailFactory {
             case "temp_mail":
                 $mailer = new TempMailProvider;
             break;
-            case "other":
-                $mailer = new SamsPHPBook;
+            case "my_temp":
+                $mailer = new MyTempMailProvider;
             break;
             default:
                 $mailer = new OReillyPHPBook;
